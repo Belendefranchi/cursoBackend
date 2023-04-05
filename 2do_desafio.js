@@ -12,6 +12,7 @@ const env = async () => {
         description: 'Este es un producto prueba',
         price: 200,
         thumbnail: 'Sin imagen',
+        code: "abc123",
         stock: 25
     };
 
@@ -30,4 +31,4 @@ env();
 setTimeout(() => {
     del();
     console.log("Se eliminó el archivo")
-}, 10000);
+}, 5000);

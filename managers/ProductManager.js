@@ -37,19 +37,20 @@ export default class ProductManager {
             }else{
                 if (products.length === 0) {
                     product.code = 1;
-                    await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
-                    return product;
                 }else{
                     product.code = products[products.length - 1].code + 1;
                 }
                 if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock){
                     console.log(`Debe completar todos los campos`);
                 }else{
-                    await fs.promises.appendFile(this.path, JSON.stringify(products));
-                    /* products.push(product); */
-                    return product;
+                    products.push(product);
                 }
             }
+            
+            await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
+
+            return product;
+
         } catch (error) {
             console.log(error);
         }
@@ -57,7 +58,7 @@ export default class ProductManager {
 
     deleteProduct = async () => {
         try{
-            await fs.promises.unlink(this.path);
+        await fs.promises.unlink(this.path);
         } catch (error) {
             console.log(error);
         }
