@@ -17,8 +17,9 @@ export default class ProductManager {
         }
     };
 
-    getProductsById = (code) => {
-        const productById = this.products.find((product) => product.code === code);
+    getProductsById = async (code) => {
+        const products = await this.getProducts();
+        const productById = products.find((product) => product.code === code);
         if (!productById) {
             return `No existe el producto con id ${code}`;
         }else{
@@ -26,7 +27,7 @@ export default class ProductManager {
         } 
     };
 
-    addProduct = async (product) => {
+    addProduct = async (product, code) => {
         try{
             const products = await this.getProducts();
 
