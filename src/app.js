@@ -1,11 +1,28 @@
 import express from 'express';
-import ProductManager from "./managers/ProductManager.js";
+import productsRouter from "./routes/products.router.js";
+import cartsRouter from "./routes/carts.router.js";
+import __dirname from './utils.js';
+
 
 const app = express();
 
-const manager = new ProductManager('./files/Products.json');
+//const manager = new ProductManager('./files/Products.json');
 
-app.get('/products', async (req, res) => {
+// para agregar funcionalidad de json
+app.use(express.json());
+
+// para agregar funcionalidad de url params
+app.use(express.urlencoded({ extended: true }));
+
+// para agregar funcionalidad de archivos estáticos
+app.use(express.static(`${__dirname}/public`));
+
+
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
+
+
+/* app.get('/products', async (req, res) => {
 
     const limit= req.query.limit;
     
@@ -15,9 +32,9 @@ app.get('/products', async (req, res) => {
     }else{	
         res.send(productResult);
     }
-});
+}); */
 
-app.get('/products/add', async (req, res) => {
+/* app.get('/products/add', async (req, res) => {
     const product = { 
         title: 'Producto prueba', 
         description: 'Este es un producto prueba', 
@@ -27,9 +44,9 @@ app.get('/products/add', async (req, res) => {
     };
     await manager.addProduct(product);
     res.send(product);
-});
+}); */
 
-app.get('/products/del', async (req, res) => {
+/* app.get('/products/del', async (req, res) => {
     const del = async () => {
         await manager.deleteProduct();
     };
@@ -37,12 +54,12 @@ app.get('/products/del', async (req, res) => {
     del();
 }, 5000);
     res.send("Se eliminó el archivo");
-});
+}); */
 
-app.get('/products/:pid', async (req, res) => {
+/* app.get('/products/:pid', async (req, res) => {
     const productResult = await manager.getProductsById(Number(req.params.pid));
     res.send(productResult);
-});
+}); */
 
 
 app.listen(8080, () => console.log ('Servidor escuchando en el puerto 8080'));

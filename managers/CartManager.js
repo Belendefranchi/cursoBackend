@@ -1,16 +1,16 @@
 import fs from 'fs';
 
-export default class ProductManager {
+export default class CartManager {
     constructor(path) {
         this.path = path;
     }
 
-    getProducts = async () => {
+    getCart = async () => {
         if (fs.existsSync(this.path)) {
             const data = await fs.promises.readFile(this.path, 'utf-8');
             console.log(data);
-            const products = JSON.parse(data);
-            return products;
+            const cart = JSON.parse(data);
+            return cart;
         } else {
             return [];
         }

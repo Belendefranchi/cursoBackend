@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=h1, initial-scale=1.0">
+    <title>BackEnd Coder</title>
+</head>
+<body>
+    <h1>Mostrar productos</h1>
+    <p>Si no se completa el valor límite, se mostrarán todos los productos.</p>
+    <form action="/api/products" method="GET">
+        <label for="limit">Límite:</label>
+        <input type="number" name="limit">
+
+        <input type="submit" value="Ver">
+    </form>
+    <br><br>
+    <h1>Cargar productos nuevos</h1>
+    <form action="/api/products" method="POST">
+        <label for="title">Titulo:</label>
+        <input type="text" name="title" required>
+
+        <label for="category">Categoría:</label>
+        <input type="text" name="category" required>
+
+        <label for="description">Descripción:</label>
+        <input type="text" name="description" required>
+
+        <label for="code">Código:</label>
+        <input type="text" name="code" required>
+
+        <label for="price">Precio:</label>
+        <input type="number" name="price" required>
+
+        <label for="thumbnail">Imagen:</label>
+        <input type="text" name="thumbnail">
+
+        <label for="stock">Stock:</label>
+        <input type="number" name="stock" required>
+
+        <label for="status">Estado:</label>
+        <input type="checkbox" name="status" value="true" checked>
+
+        <input type="submit">
+    </form>
+</body>
+</html>
