@@ -1,4 +1,8 @@
 import fs from 'fs';
+import ProductManager from "../../managers/ProductManager.js";
+
+
+const manager = new ProductManager('./files/Products.json');
 
 export default class CartManager {
     constructor(path) {
@@ -16,66 +20,50 @@ export default class CartManager {
         }
     };
 
-    getProductsById = async (code) => {
-        const products = await this.getProducts();
-        const productById = products.find((product) => product.code === code);
-        if (!productById) {
-            return `No existe el producto con id ${code}`;
-        }else{
-        return productById;
-        } 
+    addProductToCart = async (cartId, productId) => {
+        const productResult = await manager.getProducts();
+        try{
+            const product = productResult.find((product) => product.id === productId);
+            if (!product) {
+                console.log(`No existe el producto con id ${productId}`);
+            }else{
+                const carts = await this.getCart();
+                const cart = carts.find((cart) => cart.id === cartId);
+                if (!cart) {
+                    console.log(`No existe el carrito con el id ${cartId}`);
+                }else{
+                    cart.push(product);
+                }
+            }
+            await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'));
+
+            return cart;
+
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-    addProduct = async (product, id) => {
+    updateCart = async (id, form) => {
         try{
-            const products = await this.getProducts();
-
-            const codeExist = products.find((product) => product.id === id);
-
-            if (codeExist) {
-                console.log(`Ya existe un producto con el id ${id}`);
-            }else{
-                if (products.length === 0) {
-                    product.id = 1;
-                }else{
-                    product.id = products[products.length - 1].id + 1;
-                }
-                if (!product.title || !product.category || !product.description || !product.code || !product.price || !product.thumbnail || !product.stock){
-                    console.log(`Debe completar todos los campos`);
-                }else{
-                    products.push(product);
-                }
-            }
-            
-            await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
-
-            return product;
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    updateProduct = async (id, form) => {
-        try{
-            const products = await this.getProducts();
-            const product = products.find((product) => product.id === id);
-            if (!product) {
-                console.log(`No existe el producto con el id ${id}`);
+            const carts = await this.getcarts();
+            const cart = carts.find((cart) => cart.id === id);
+            if (!cart) {
+                console.log(`No existe el carto con el id ${id}`);
             }else{
 
             }
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
 
-    deleteProduct = async () => {
+    deleteCart = async () => {
         try{
         await fs.promises.unlink(this.path);
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 }

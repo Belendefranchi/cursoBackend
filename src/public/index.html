@@ -44,5 +44,18 @@
 
         <input type="submit">
     </form>
+    <br><br>
+    <h1>Cargar productos al carrito</h1>
+    <form action="/api/carts" method="POST">
+        <label for="id">Id del producto:</label>
+        <input type="text" name="id" required>
+
+        <input type="submit">
+    </form>
+    <br><br>
+    <h1>Mostrar carrito</h1>
+    <form action="/api/carts" method="GET">
+        <input type="submit" value="Ver">
+    </form>
 </body>
 </html>
