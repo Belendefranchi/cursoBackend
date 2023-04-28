@@ -1,4 +1,5 @@
 import express from 'express';
+import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
@@ -25,6 +26,7 @@ app.set('view engine', 'handlebars');
 
 
 app.use('/', viewsRouter);
+app.use('/realtimeproducts', viewsRouter)
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
@@ -69,4 +71,23 @@ app.use('/api/carts', cartsRouter);
 }); */
 
 
-app.listen(8080, () => console.log ('Servidor escuchando en el puerto 8080'));
+const server = app.listen(8080, () => console.log ('Servidor escuchando en el puerto 8080'));
+
+const io = new Server(server);
+
+const logs = [];
+
+io.on('connection', socket => {
+    console.log('Nuevo cliente conectado!');
+    socket.on('message1', data => {
+        io.emit('log', data);
+    });
+
+    socket.on('message2', data => {
+        logs.push({ socketId: socket.id, message: data });
+        io.emit('log', { logs });
+    });
+
+    socket.emit('evento_socket_individual', 'Este mensaje solo debe recibir el socket')
+});
+
