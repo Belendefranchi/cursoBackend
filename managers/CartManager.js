@@ -1,5 +1,5 @@
 import fs from 'fs';
-import ProductManager from "../../managers/ProductManager.js";
+import ProductManager from "./ProductManager.js";
 
 
 const manager = new ProductManager('./files/Products.json');
@@ -16,7 +16,8 @@ export default class CartManager {
             const cart = JSON.parse(data);
             return cart;
         } else {
-            return [];
+            const cart = [];
+            return cart;
         }
     };
 
@@ -27,13 +28,13 @@ export default class CartManager {
             if (!product) {
                 console.log(`No existe el producto con id ${productId}`);
             }else{
-                const carts = await this.getCart();
+/*                 const carts = await this.getCart();
                 const cart = carts.find((cart) => cart.id === cartId);
                 if (!cart) {
                     console.log(`No existe el carrito con el id ${cartId}`);
                 }else{
-                    cart.push(product);
-                }
+                } */
+                cart.push(product);
             }
             await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'));
 
@@ -46,7 +47,7 @@ export default class CartManager {
 
     updateCart = async (id, form) => {
         try{
-            const carts = await this.getcarts();
+            const carts = await this.getCart();
             const cart = carts.find((cart) => cart.id === id);
             if (!cart) {
                 console.log(`No existe el carto con el id ${id}`);
