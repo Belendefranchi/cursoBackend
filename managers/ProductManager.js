@@ -18,7 +18,7 @@ export default class ProductManager {
 
     getProductsById = async (code) => {
         const products = await this.getProducts();
-        const productById = products.find((product) => product.code === code);
+        const productById = products.find((product) => product.id === code);
         if (!productById) {
             return `No existe el producto con id ${code}`;
         }else{

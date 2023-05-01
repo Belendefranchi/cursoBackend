@@ -1,0 +1,58 @@
+<div>
+    <h1>Hola {{user.name}}, estas en al panel de administración</h1>
+</div>
+<div>
+    <h2>Mostrar productos</h2>
+    <p>Si no se completa el valor límite, se mostrarán todos los productos.</p>
+    <form action="/api/products" method="GET">
+        <label for="limit">Límite:</label>
+        <input type="number" name="limit">
+
+        <input type="submit" value="Ver">
+    </form>
+</div>
+<div>
+<h2>Cargar productos nuevos</h2>
+<form action="/api/products" method="POST">
+    <label for="title">Titulo:</label>
+    <input type="text" name="title" required>
+
+    <label for="category">Categoría:</label>
+    <input type="text" name="category" required>
+
+    <label for="description">Descripción:</label>
+    <input type="text" name="description" required>
+
+    <label for="code">Código:</label>
+    <input type="text" name="code" required>
+
+    <label for="price">Precio:</label>
+    <input type="number" name="price" required>
+
+    <label for="thumbnail">Imagen:</label>
+    <input type="text" name="thumbnail">
+
+    <label for="stock">Stock:</label>
+    <input type="number" name="stock" required>
+
+    <label for="status">Estado:</label>
+    <input type="checkbox" name="status" value="true" checked>
+
+    <input type="submit">
+</form>
+</div>
+<div>
+    <h2>Cargar productos al carrito</h2>
+    <form action="/api/carts" method="POST">
+        <label for="id">Id del producto:</label>
+        <input type="text" name="id" required>
+
+        <input type="submit">
+    </form>
+</div>
+<div>
+    <h2>Mostrar carrito</h2>
+    <form action="/api/carts" method="GET">
+        <input type="submit" value="Ver">
+    </form>
+</div>

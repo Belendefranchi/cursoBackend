@@ -1,0 +1,13 @@
+<div>
+    <h1>Hola {{user.name}}!</h1>
+</div>
+<div>
+    <h2>Mostrar productos</h2>
+    <p>Si no se completa el valor límite, se mostrarán todos los productos.</p>
+    <form action="/api/products" method="GET">
+        <label for="limit">Límite:</label>
+        <input type="number" name="limit">
+
+        <input type="submit" value="Ver">
+    </form>
+</div>

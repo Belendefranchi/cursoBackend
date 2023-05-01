@@ -23,6 +23,24 @@ router.get('/:pid', async (req, res) => {
     res.send(productResult);
 });
 
+router.get('/home', async (req, res) => {
+    const productResult = await manager.getProducts();
+    const title = productResult.title;
+    const category = productResult.category;
+    const description = productResult.description;
+    const code = productResult.code;
+    const price = productResult.price;
+    const thumbnail = productResult.thumbnail;
+    
+    res.render('home', { productResult });
+});
+
+router.get('/realtimeproducts', async (req, res) => {
+    const productResult = await manager.getProducts();
+    console.log(productResult);
+    res.render('realTimeProducts', { productResult });
+});
+
 
 router.post('/', async (req, res) => {
     const form = req.body

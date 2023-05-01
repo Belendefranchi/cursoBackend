@@ -1,81 +1,24 @@
 <div>
-    <h1>Bienvenido!!!</h1>
-{{!-- <h2> Ingrese sus datos:</h2>
-<form action="roles.handlebars" method="GET">
-    <label for="name">Nombre:</label>
-    <input type="text" id="name" value="">
+    <h1>{{title}}</h1>
 
-    <label for="role">Email:</label>
-    <select name="role" id="role" value="">
-        <option value="user">Usuario</option>
-        <option value="admin">Administrador</option>
-    </select>
+    <h2>{{message}}</h2>
 
-    <input type="submit" value="Ingresar">
-</form> --}}
-    {{#if isAdmin}}
-        <p>Hola {{user.name}}, estas en al panel de administración</p>
-        <h2>Mostrar productos</h2>
-        <p>Si no se completa el valor límite, se mostrarán todos los productos.</p>
-        <form action="/api/products" method="GET">
-            <label for="limit">Límite:</label>
-            <input type="number" name="limit">
+    <form action="/" method="POST">
 
-            <input type="submit" value="Ver">
-        </form>
-        <br><br>
-        <h2>Cargar productos nuevos</h2>
-        <form action="/api/products" method="POST">
-            <label for="title">Titulo:</label>
-            <input type="text" name="title" required>
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" value="">
 
-            <label for="category">Categoría:</label>
-            <input type="text" name="category" required>
+        <label for="role">Rol:</label>
+        <select name="role" id="role" value="">
+            <option value="user">Usuario</option>
+            <option value="admin">Administrador</option>
+        </select>
 
-            <label for="description">Descripción:</label>
-            <input type="text" name="description" required>
+        <input type="submit" value="Ingresar">
 
-            <label for="code">Código:</label>
-            <input type="text" name="code" required>
-
-            <label for="price">Precio:</label>
-            <input type="number" name="price" required>
-
-            <label for="thumbnail">Imagen:</label>
-            <input type="text" name="thumbnail">
-
-            <label for="stock">Stock:</label>
-            <input type="number" name="stock" required>
-
-            <label for="status">Estado:</label>
-            <input type="checkbox" name="status" value="true" checked>
-
-            <input type="submit">
-        </form>
-        <br><br>
-        <h2>Cargar productos al carrito</h2>
-        <form action="/api/carts" method="POST">
-            <label for="id">Id del producto:</label>
-            <input type="text" name="id" required>
-
-            <input type="submit">
-        </form>
-        <br><br>
-        <h2>Mostrar carrito</h2>
-        <form action="/api/carts" method="GET">
-            <input type="submit" value="Ver">
-        </form>
-    {{else}}
-        <h2>Hola {{user.name}}!!!</h2>
-        <h2>Mostrar productos</h2>
-        <p>Si no se completa el valor límite, se mostrarán todos los productos.</p>
-        <form action="/api/products" method="GET">
-            <label for="limit">Límite:</label>
-            <input type="number" name="limit">
-
-            <input type="submit" value="Ver">
-        </form>
-    {{/if}}
+    </form>
 </div>
+    
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>
+
