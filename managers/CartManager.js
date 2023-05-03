@@ -6,19 +6,28 @@ const manager = new ProductManager('./files/Products.json');
 
 export default class CartManager {
     constructor(path) {
-        this.path = path;
+        this.carts = path;
     }
 
-    getCart = async () => {
-        if (fs.existsSync(this.path)) {
-            const data = await fs.promises.readFile(this.path, 'utf-8');
+    getCarts = async () => {
+        if (fs.existsSync(this.carts)) {
+            const data = await fs.promises.readFile(this.carts, 'utf-8');
             console.log(data);
-            const cart = JSON.parse(data);
-            return cart;
+            const carts = JSON.parse(data);
+            return carts;
         } else {
-            const cart = [];
-            return cart;
+            return [];
         }
+    };
+    
+    saveCart = async(cart) => {
+        if(this.carts.length === 0) {   
+            cart.id = 1;
+        } else {
+            cart.id = this.carts[this.carts.length - 1].id + 1;
+        }
+        this.carts.push(cart);
+        return cart;
     };
 
     addProductToCart = async (cartId, productId) => {
@@ -50,7 +59,7 @@ export default class CartManager {
             const carts = await this.getCart();
             const cart = carts.find((cart) => cart.id === id);
             if (!cart) {
-                console.log(`No existe el carto con el id ${id}`);
+                console.log(`No existe el carrito con el id ${id}`);
             }else{
 
             }

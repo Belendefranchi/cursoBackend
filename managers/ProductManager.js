@@ -2,12 +2,12 @@ import fs from 'fs';
 
 export default class ProductManager {
     constructor(path) {
-        this.path = path;
+        this.products = path;
     }
 
     getProducts = async () => {
-        if (fs.existsSync(this.path)) {
-            const data = await fs.promises.readFile(this.path, 'utf-8');
+        if (fs.existsSync(this.products)) {
+            const data = await fs.promises.readFile(this.products, 'utf-8');
             console.log(data);
             const products = JSON.parse(data);
             return products;
@@ -47,7 +47,7 @@ export default class ProductManager {
                 }
             }
             
-            await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
+            await fs.promises.writeFile(this.products, JSON.stringify(products, null, '\t'));
 
             return product;
 
@@ -73,7 +73,7 @@ export default class ProductManager {
 
     deleteProduct = async () => {
         try{
-        await fs.promises.unlink(this.path);
+        await fs.promises.unlink(this.products);
         } catch (error) {
             console.log(error);
         }

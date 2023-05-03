@@ -11,8 +11,8 @@ const productManager = new ProductManager('./files/Products.json');
 /* const carts = []; */
 
 router.get('/', async (req, res) => {
-    const cart = await cartManager.getCart();
-    res.send({ status: 'success', cart });
+    const cartResult = await cartManager.getCarts();
+    res.send({ status: 'success', cartResult });
 });
 
 router.post('/:ci/product/:pid', async (req, res) => {

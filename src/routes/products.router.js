@@ -14,7 +14,8 @@ router.get('/', async (req, res) => {
     if(limit){
         res.send(productResult.slice(0, limit));
     }else{	
-        res.send(productResult);
+        res.send({ status: 'success', productResult });
+
     }
 });
 
@@ -22,25 +23,6 @@ router.get('/:pid', async (req, res) => {
     const productResult = await manager.getProductsById(Number(req.params.pid));
     res.send(productResult);
 });
-
-router.get('/home', async (req, res) => {
-    const productResult = await manager.getProducts();
-    const title = productResult.title;
-    const category = productResult.category;
-    const description = productResult.description;
-    const code = productResult.code;
-    const price = productResult.price;
-    const thumbnail = productResult.thumbnail;
-    
-    res.render('home', { productResult });
-});
-
-router.get('/realtimeproducts', async (req, res) => {
-    const productResult = await manager.getProducts();
-    console.log(productResult);
-    res.render('realTimeProducts', { productResult });
-});
-
 
 router.post('/', async (req, res) => {
     const form = req.body
