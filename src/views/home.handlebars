@@ -1,6 +1,13 @@
 <div>
     <h1>Productos disponibles</h1>
     <div id="container"></div>
+    {{#each productResult}}
+        <h3>{{this.title}}</h3>
+        <h4>{{this.price}}</h4>
+        <p>{{this.category}}</p>
+        <p>{{this.description}}</p>
+        <p>{{this.stock}}</p>
+    {{/each}}
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

@@ -5,7 +5,7 @@ import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import __dirname from './utils.js';
-
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -30,6 +30,13 @@ app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
+
+try {
+    await mongoose.connect('mongodb+srv://belendefranchi:yAZg4NDFZWERHnk9@cluster39760bdf.tv4a6we.mongodb.net/?retryWrites=true&w=majority');
+    console.log('Base de datos conectada');
+} catch (error) {
+    console.log(error);
+}
 
 const server = app.listen(8080, () => console.log ('Servidor escuchando en el puerto 8080'));
 

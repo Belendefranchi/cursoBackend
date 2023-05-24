@@ -19,14 +19,17 @@ export default class CartManager {
             return [];
         }
     };
-    
-    saveCart = async(cart) => {
-        if(this.carts.length === 0) {   
+
+    saveCart = async (cart) => {
+        if(this.carts.length === 0) {
             cart.id = 1;
         } else {
             cart.id = this.carts[this.carts.length - 1].id + 1;
         }
         this.carts.push(cart);
+
+        await fs.promises.writeFile(this.carts, JSON.stringify(cart, null, '\t'));
+
         return cart;
     };
 

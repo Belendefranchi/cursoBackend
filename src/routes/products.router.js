@@ -9,13 +9,13 @@ const manager = new ProductManager('./files/Products.json');
 router.get('/', async (req, res) => {
 
     const limit= req.query.limit;
-    
+
     const productResult = await manager.getProducts();
     if(limit){
         res.send(productResult.slice(0, limit));
-    }else{	
-        res.send({ status: 'success', productResult });
-
+    }else{
+        res.render('home', productResult);
+        //res.send({ status: 'success', productResult });
     }
 });
 
