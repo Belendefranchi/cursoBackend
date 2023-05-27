@@ -41,7 +41,7 @@ socket.on('message', data => {
     data.forEach(prod => {
         container.innerHTML += `
             <ul>
-                <li>title: ${prod.title}</li> 
+                <li>title: ${prod.title}</li>
                 <li>description: ${prod.description}</li>
                 <li>code: ${prod.code}</li>
                 <li>price: ${prod.price}</li>

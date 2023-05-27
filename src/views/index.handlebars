@@ -1,4 +1,4 @@
-<div>
+<div class="text-center">
     <h1>{{title}}</h1>
 
     <h2>{{message}}</h2>
@@ -6,7 +6,7 @@
     <form action="/" method="POST">
 
         <label for="name">Nombre:</label>
-        <input type="text" id="name" value="">
+        <input type="text" name="name" id="name" value="">
 
         <label for="role">Rol:</label>
         <select name="role" id="role" value="">
@@ -14,11 +14,11 @@
             <option value="admin">Administrador</option>
         </select>
 
-        <input type="submit" value="Ingresar">
+        <input class="btn btn-primary" type="submit" value="Ingresar">
 
     </form>
 </div>
-    
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>
 

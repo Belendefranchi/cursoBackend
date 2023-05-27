@@ -1,6 +1,4 @@
 import { Router } from 'express';
-import ProductManager from "../../managers/ProductManager.js";
-
 
 const router = new Router();
 
@@ -10,14 +8,16 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const user = req.body;
-    const userName = user.name;
     const userRole = user.role;
+    const userName = user.name;
     if(userRole === 'admin'){
         console.log(userRole);
-        res.render('admins', user);
+        console.log(userName);
+        res.render('admins', { userName });
     }else{
         console.log(userRole);
-        res.render('users', user);
+        console.log(userName);
+        res.render('users', { userName });
     }
 });
 

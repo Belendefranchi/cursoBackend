@@ -1,13 +1,13 @@
-<div>
-    <h1>Hola {{user.name}}!</h1>
+<div class="text-center m-5">
+    <h1>Hola {{userName}}!</h1>
 </div>
-<div>
+<div class="text-center m-3">
     <h2>Mostrar productos</h2>
     <p>Si no se completa el valor límite, se mostrarán todos los productos.</p>
-    <form action="/api/products" method="GET">
-        <label for="limit">Límite:</label>
-        <input type="number" name="limit">
+    <form class="d-flex" action="/api/products" method="GET">
+        <label class="col-sm-2 col-form-label" for="limit">Límite:</label>
+        <input class="form-control" type="number" name="limit">
 
-        <input type="submit" value="Ver">
+        <input class="btn btn-primary" type="submit" value="Ver">
     </form>
 </div>

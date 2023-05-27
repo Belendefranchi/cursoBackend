@@ -1,13 +1,23 @@
-<div>
-    <h1>Productos disponibles</h1>
-    <div id="container"></div>
-    {{#each productResult}}
-        <h3>{{this.title}}</h3>
-        <h4>{{this.price}}</h4>
-        <p>{{this.category}}</p>
-        <p>{{this.description}}</p>
-        <p>{{this.stock}}</p>
-    {{/each}}
+<div class="text-center">
+    <h1 class="m-5">Productos disponibles</h1>
+    <div class="m-auto" style="width: 20rem;" id="container">
+        {{#each result}}
+            {{#if this.status}}
+                <div class="card m-2" style="width: 18rem;">
+                    <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.title}}</h5>
+                        <h4 class="card-title">$ {{this.price}}</h4>
+                        <p class="card-text">{{this._id}}</p>
+                        <p class="card-text">{{this.category}}</p>
+                        <p class="card-text">{{this.description}}</p>
+                        <p class="card-text">Unidades: {{this.stock}}</p>
+                        <a href="#" class="btn btn-primary" onclick="addToCart('{{this._id}}')">Agregar al carrito</a>
+                    </div>
+                </div>
+            {{/if}}
+        {{/each}}
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

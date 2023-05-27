@@ -23,7 +23,7 @@ export default class ProductManager {
             return `No existe el producto con id ${code}`;
         }else{
         return productById;
-        } 
+        }
     };
 
     addProduct = async (product, id) => {
@@ -46,7 +46,6 @@ export default class ProductManager {
                     products.push(product);
                 }
             }
-            
             await fs.promises.writeFile(this.products, JSON.stringify(products, null, '\t'));
 
             return product;

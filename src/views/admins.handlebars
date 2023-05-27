@@ -1,58 +1,67 @@
-<div>
-    <h1>Hola {{user.name}}, estas en al panel de administración</h1>
+<div class="text-center m-5">
+    <h1>Hola {{userName}}, estas en el panel de administración</h1>
 </div>
-<div>
+<div class="text-center m-3">
     <h2>Mostrar productos</h2>
     <p>Si no se completa el valor límite, se mostrarán todos los productos.</p>
-    <form action="/api/products" method="GET">
-        <label for="limit">Límite:</label>
-        <input type="number" name="limit">
-
-        <input type="submit" value="Ver">
+    <form class="d-flex" action="/api/products" method="GET">
+        <label class="col-sm-2 col-form-label" for="limit">Límite:</label>
+        <input class="form-control" type="number" name="limit">
+        <input class="btn btn-primary" type="submit" value="Ver">
     </form>
 </div>
-<div>
-<h2>Cargar productos nuevos</h2>
-<form action="/api/products" method="POST">
-    <label for="title">Titulo:</label>
-    <input type="text" name="title" required>
+<div class="text-center m-3">
+    <h2>Cargar productos nuevos</h2>
 
-    <label for="category">Categoría:</label>
-    <input type="text" name="category" required>
-
-    <label for="description">Descripción:</label>
-    <input type="text" name="description" required>
-
-    <label for="code">Código:</label>
-    <input type="text" name="code" required>
-
-    <label for="price">Precio:</label>
-    <input type="number" name="price" required>
-
-    <label for="thumbnail">Imagen:</label>
-    <input type="text" name="thumbnail">
-
-    <label for="stock">Stock:</label>
-    <input type="number" name="stock" required>
-
-    <label for="status">Estado:</label>
-    <input type="checkbox" name="status" value="true" checked>
-
-    <input type="submit">
-</form>
-</div>
-<div>
-    <h2>Cargar productos al carrito</h2>
-    <form action="/api/carts" method="POST">
-        <label for="id">Id del producto:</label>
-        <input type="text" name="id" required>
-
-        <input type="submit">
-    </form>
-</div>
-<div>
-    <h2>Mostrar carrito</h2>
-    <form action="/api/carts" method="GET">
-        <input type="submit" value="Ver">
+    <form action="/api/products" method="POST">
+        <div class="row mb-3">
+            <label for="title" class="col-sm-2 col-form-label">Titulo:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="category" class="col-sm-2 col-form-label">Categoría:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="category" name="category" required>
+            </div>
+        </div>
+                <div class="row mb-3">
+            <label for="description" class="col-sm-2 col-form-label">Descripción:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="code" class="col-sm-2 col-form-label">Código:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="code" name="code" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="price" class="col-sm-2 col-form-label">Precio:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="price" name="price" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="thumbnail" class="col-sm-2 col-form-label">Imagen:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="thumbnail" name="thumbnail">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="stock" class="col-sm-2 col-form-label">Stock:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="stock" name="stock" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="status" class="col-sm-2 col-form-label">Estado:</label>
+            <div class="col-sm-1">
+                <input class="form-check-input" type="checkbox" id="status" value="true" checked>
+            </div>
+        </div>
+        <input class="btn btn-primary" type="submit">
     </form>
 </div>

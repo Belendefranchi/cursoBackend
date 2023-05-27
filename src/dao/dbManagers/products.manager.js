@@ -1,15 +1,26 @@
-import { productModel } from '../models/products.models.js';
+import { productModel } from '../../models/products.model.js';
 
-export default class products {
+export default class productManager {
     constructor() {
         console.log('Working products with DB')
     }
 
     getAll = async () => {
-
+        const products = await productModel.find().lean();
+        return products;
     }
 
-    save = async () => {
+    getProductsById = async (_id) => {
+        const products = await productModel.find().lean();
+        let productById = products.find((product) => product._id.toString() === _id.toString());
+        if (!productById) {
+            return `No existe el producto con id ${_id}`;
+        }else{
+            return productById;
+        }
+    };
+
+    insertMany = async () => {
 
         const products = [
             {
@@ -20,8 +31,7 @@ export default class products {
                 price: "1000",
                 thumbnail: "Ruta de imagen",
                 stock: "10",
-                status: "true",
-                id: 1
+                status: "true"
             },
             {
                 title: "Producto de prueba",
@@ -31,8 +41,7 @@ export default class products {
                 price: "1000",
                 thumbnail: "Ruta de imagen",
                 stock: "10",
-                status: "true",
-                id: 2
+                status: "true"
             },
             {
                 title: "Producto de prueba",
@@ -42,8 +51,7 @@ export default class products {
                 price: "1000",
                 thumbnail: "Ruta de imagen",
                 stock: "10",
-                status: "true",
-                id: 3
+                status: "true"
             },
             {
                 title: "Producto de prueba",
@@ -53,8 +61,7 @@ export default class products {
                 price: "1000",
                 thumbnail: "Ruta de imagen",
                 stock: "10",
-                status: "true",
-                id: 4
+                status: "true"
             },
             {
                 title: "Producto de prueba",
@@ -64,8 +71,7 @@ export default class products {
                 price: "1000",
                 thumbnail: "Ruta de imagen",
                 stock: "10",
-                status: "true",
-                id: 5
+                status: "true"
             },
             {
                 title: "Producto de prueba",
@@ -75,8 +81,7 @@ export default class products {
                 price: "1000",
                 thumbnail: "Ruta de imagen",
                 stock: "10",
-                status: "true",
-                id: 6
+                status: "true"
             },
             {
                 title: "Producto de prueba",
@@ -86,8 +91,7 @@ export default class products {
                 price: "1000",
                 thumbnail: "Ruta de imagen",
                 stock: "10",
-                status: "true",
-                id: 7
+                status: "true"
             },
             {
                 title: "Producto de prueba",
@@ -97,8 +101,7 @@ export default class products {
                 price: "1000",
                 thumbnail: "Ruta de imagen",
                 stock: "10",
-                status: "true",
-                id: 8
+                status: "true"
             },
             {
                 title: "1",
@@ -108,13 +111,15 @@ export default class products {
                 price: "1",
                 thumbnail: "1",
                 stock: "1",
-                status: "true",
-                id: 9
+                status: "true"
             }
         ]
 
-        //Insertar datos en la coleccion
         await productModel.insertMany(products);
+    }
+
+    insertOne = async (product) => {
+        await productModel.create(product);
     }
 
     update = async (id, product) => {
