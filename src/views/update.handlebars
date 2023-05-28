@@ -1,6 +1,6 @@
 <div class="text-center">
     <h1 class="m-5 text-center">Modificar producto</h1>
-    <div class="m-auto" style="width: 26rem;" id="container">
+    <div class="m-auto" style="width: 28rem;" id="container">
         <div class="card m-1">
             <img src="{{payload.image}}" class="card-img-top text-center" alt="Imagen del producto">
             <div class="card-body">
@@ -59,7 +59,9 @@
                     </div>
                 </div>
                 <button class="btn btn-primary" onClick="goBack()">Volver</button>
-                <button class="btn btn-primary text-center" onClick="updateProduct()">Guardar cambios</button>
+                <button class="btn btn-primary" onClick="updateProduct()">Guardar cambios</button>
+                <button class="btn btn-primary" onClick="deleteProduct()">Eliminar producto</button>
+
             </div>
         </div>
     </div>

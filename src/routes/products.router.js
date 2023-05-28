@@ -118,18 +118,15 @@ router.put('/update/:pid', async (req, res) => {
     } catch (error) {
         console.log(error);
     };
-console.log(limit);
 });
 
-/* router.delete('/', (req, res) => {
-    const del = async () => {
-        await manager.deleteProduct();
-    };
-    setTimeout(() => {
-    del();
-}, 5000);
-    res.send("Se eliminó el archivo");
-}); */
+router.delete('/update/:pid', async (req, res) => {
 
+    const { pid } = req.params;
+
+    const deleteProduct = await manager.deleteOne(pid);
+    res.send({ status: 'success', payload: deleteProduct });
+
+});
 
 export default router;

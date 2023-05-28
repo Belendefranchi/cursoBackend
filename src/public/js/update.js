@@ -1,3 +1,7 @@
+const goBack = () => {
+  window.location.href = '/api/products';
+};
+
 const updateProduct = () => {
 
   const id = document.getElementById('id').value;
@@ -36,6 +40,30 @@ const updateProduct = () => {
     });
 };
 
-const goBack = () => {
-  window.location.href = '/api/products';
+const deleteProduct = () => {
+
+  const id = document.getElementById('id').value;
+
+  const url = `/api/products/update/${String(id)}`;
+
+  console.log(id);
+
+  fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id }),
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log('Producto eliminado correctamente');
+        window.location.href = '/api/products';
+      } else {
+        throw new Error('Error al eliminar el producto');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 };
