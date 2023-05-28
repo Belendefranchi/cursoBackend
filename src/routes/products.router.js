@@ -15,17 +15,16 @@ router.get('/', async (req, res) => {
         if(limit){
             const result = products.slice(0, limit);
             console.log(result);
-            res.render('home', { result });
+            res.render('products', { payload: result });
             //res.send({ status: 'success', payload: result });
         }else{
             const result = products;
-            res.render('home', { result });
-            //res.send({ status: 'success', payload: productResult });
+            res.render('products', { payload: result });
+            //res.send({ status: 'success', payload: result });
         }
     } catch (error) {
         console.log(error);
     }
-
 });
 
 router.get('/:pid', async (req, res) => {
@@ -33,119 +32,30 @@ router.get('/:pid', async (req, res) => {
     try {
         const result = await manager.getProductsById(pid);
         console.log(result);
-        res.render('home', { result });
-        //res.send(result);
+        res.render('productDetail', { payload: result });
+        //res.send({ status: 'success', payload: result });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.get('/update/:pid', async (req, res) => {
+
+    const pid = req.params.pid;
+    const result = await manager.getProductsById(pid);
+
+    console.log(pid);
+    console.log(result);
+
+    try {
+        res.render('update', { payload: result });
     } catch (error) {
         console.log(error);
     }
 });
 
 /* router.post('/', async (req, res) => {
-    //const form = req.body
-
-    const products = [
-        {
-            title: "Producto de prueba",
-            category: "Prueba",
-            description: "Descripción de prueba",
-            code: "abc123",
-            price: "1000",
-            thumbnail: "Ruta de imagen",
-            stock: "10",
-            status: "true",
-            id: 1
-        },
-        {
-            title: "Producto de prueba",
-            category: "Prueba",
-            description: "Descripción de prueba",
-            code: "abc123",
-            price: "1000",
-            thumbnail: "Ruta de imagen",
-            stock: "10",
-            status: "true",
-            id: 2
-        },
-        {
-            title: "Producto de prueba",
-            category: "Prueba",
-            description: "Descripción de prueba",
-            code: "abc123",
-            price: "1000",
-            thumbnail: "Ruta de imagen",
-            stock: "10",
-            status: "true",
-            id: 3
-        },
-        {
-            title: "Producto de prueba",
-            category: "Prueba",
-            description: "Descripción de prueba",
-            code: "abc123",
-            price: "1000",
-            thumbnail: "Ruta de imagen",
-            stock: "10",
-            status: "true",
-            id: 4
-        },
-        {
-            title: "Producto de prueba",
-            category: "Prueba",
-            description: "Descripción de prueba",
-            code: "abc123",
-            price: "1000",
-            thumbnail: "Ruta de imagen",
-            stock: "10",
-            status: "true",
-            id: 5
-        },
-        {
-            title: "Producto de prueba",
-            category: "Prueba",
-            description: "Descripción de prueba",
-            code: "abc123",
-            price: "1000",
-            thumbnail: "Ruta de imagen",
-            stock: "10",
-            status: "true",
-            id: 6
-        },
-        {
-            title: "Producto de prueba",
-            category: "Prueba",
-            description: "Descripción de prueba",
-            code: "abc123",
-            price: "1000",
-            thumbnail: "Ruta de imagen",
-            stock: "10",
-            status: "true",
-            id: 7
-        },
-        {
-            title: "Producto de prueba",
-            category: "Prueba",
-            description: "Descripción de prueba",
-            code: "abc123",
-            price: "1000",
-            thumbnail: "Ruta de imagen",
-            stock: "10",
-            status: "true",
-            id: 8
-        },
-        {
-            title: "1",
-            category: "1",
-            description: "1",
-            code: "1",
-            price: "1",
-            thumbnail: "1",
-            stock: "1",
-            status: "true",
-            id: 9
-        }
-    ]
-
-    const product = await manager.insertMany(products);
+    const products = await manager.insertMany();
     res.send({ status: 'success', product });
 }); */
 
@@ -183,11 +93,33 @@ router.post('/', async (req, res) => {
     }
 });
 
-/* router.put('/:pid', async (req, res) => {
-    const form = req.body
-    const product = await manager.updateProduct(Number(req.params.pid), form);
-    res.send({ status: 'success', product });
-}); */
+router.put('/update/:pid', async (req, res) => {
+
+    const { pid } = req.params;
+    console.log(pid);
+    const { title, category, description, code, price, thumbnail, stock, status } = req.body;
+
+    if(!title || !category || !description || !code || !price || !thumbnail || !stock || !status ){
+        return res.status(400).send({ status: 'Error', error: 'Missing fields' })
+    };
+
+    try {
+        const productToUpdate = await manager.updateOne(pid, {
+            title,
+            category,
+            description,
+            code,
+            price,
+            thumbnail,
+            stock,
+            status
+        });
+        res.send({ status: 'success', payload: productToUpdate });
+    } catch (error) {
+        console.log(error);
+    };
+console.log(limit);
+});
 
 /* router.delete('/', (req, res) => {
     const del = async () => {

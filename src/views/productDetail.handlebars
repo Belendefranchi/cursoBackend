@@ -1,0 +1,17 @@
+<div class="text-center">
+    <h1 class="m-5">Detalle de producto</h1>
+    <div class="m-auto" style="width: 24rem;" id="container">
+        <div class="card m-2" style="width: 22rem;">
+            <img src="{{payload.image}}" class="card-img-top" alt="Imagen del producto">
+            <div class="card-body">
+                <h5 class="card-title">{{payload.title}}</h5>
+                <p class="card-text">{{payload.category}}</p>
+                <p class="card-text">{{payload.description}}</p>
+                <button class="btn btn-primary" onClick="history.go(-1)">Volver</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

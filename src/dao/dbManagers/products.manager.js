@@ -122,7 +122,8 @@ export default class productManager {
         await productModel.create(product);
     }
 
-    update = async (id, product) => {
-
+    updateOne = async (id, product) => {
+        const result = await productModel.updateOne({ _id: id }, product);
+        return result;
     }
 }
