@@ -6,6 +6,7 @@ import __dirname from './utils.js';
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
+import { productModel } from './models/products.model.js';
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/api/carts', cartsRouter);
 try {
     await mongoose.connect('mongodb+srv://belendefranchi:yAZg4NDFZWERHnk9@cluster39760bdf.tv4a6we.mongodb.net/?retryWrites=true&w=majority');
     console.log('Base de datos conectada');
+
 } catch (error) {
     console.log(error);
 }

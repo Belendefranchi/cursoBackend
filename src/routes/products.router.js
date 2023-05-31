@@ -1,24 +1,31 @@
 import { Router } from 'express';
 import ProductManager from "../../src/dao/dbManagers/products.manager.js";
+import { productModel } from '../../src/models/products.model.js';
 
 
 const router = Router();
 
 const manager = new ProductManager();
 
+
 router.get('/', async (req, res) => {
 
-    const limit= req.query.limit;
+    const limit = req.query.limit;
 
     try {
-        const products = await manager.getAll();
+        const { products } = await manager.getAll();
         if(limit){
-            const result = products.slice(0, limit);
-            console.log(result);
+            //const result = resultPaginated.slice(0, limit);
+            const result = await productModel.paginate({}, { limit: limit, page: 1, lean: true });
+            console.log(JSON.stringify(result, null, '\t'));
+
             res.render('products', { payload: result });
             //res.send({ status: 'success', payload: result });
         }else{
-            const result = products;
+            //const result = products;
+            const result = await productModel.paginate({}, { limit: 10, page: 1, lean: true});
+            console.log(JSON.stringify(result, null, '\t'));
+
             res.render('products', { payload: result });
             //res.send({ status: 'success', payload: result });
         }
@@ -68,10 +75,11 @@ router.post('/', async (req, res) => {
 
     if (codeExist) {
         console.log(`Ya existe un producto con el código: ${code}`);
+        return res.send("<script>alert('Ya existe un producto con ese código')</script>");
     }else{
         if (!title || !category || !description || !code || !price || !thumbnail || !stock){
-            console.log(`Debe completar todos los campos`);
-            return res.status(400).send({ status: 'Error', error: 'Missing fields' })
+            console.log(`Missing fields`);
+            return res.send("<script>alert('Debe completar todos los campos')</script>");
         }else{
             try {
                 const result = await manager.insertOne({

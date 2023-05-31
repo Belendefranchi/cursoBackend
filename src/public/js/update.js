@@ -20,6 +20,10 @@ const updateProduct = () => {
 
   console.log(url);
 
+  if (!title || !category || !description || !code || !price || !thumbnail || !stock || !status){
+    console.log(`Missing fields`);
+    alert('Debe completar todos los campos')
+  };
 
   fetch(url, {
     method: 'PUT',
