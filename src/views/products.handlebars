@@ -1,7 +1,12 @@
 <div class="text-center">
-    <h1 class="m-5">Productos disponibles</h1>
+    <h1>Tu perfil</h1>
+    <p>{{user.name}}</p>
+    <p>{{user.email}}</p>
+    <p>{{user.age}}</p>
+    <a href="/api/sessions/logout"><button class="btn btn-primary">Salir</button></a>
+    <h2 class="m-5">Productos disponibles</h2>
     <div class="m-auto" style="width: 24rem;" id="container">
-        {{#each payload.docs}}
+        {{#each payload}}
             <div class="card m-2" style="width: 22rem;">
                 <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
                 <div class="card-body">
@@ -19,6 +24,19 @@
                 </div>
             </div>
         {{/each}}
+        <p>
+            {{#if hasPrevPage}}
+                <a class="m-3" href="/api/products?limit={{limit}}&page={{prevPage}}">Anterior</a>
+                <a class="m-2" href="/api/products?limit={{limit}}&page=1">1,</a>
+                <span class="m-2">...</span>
+            {{/if}}
+                <span class="m-2">{{page}}</span>
+                <span class="m-2">de</span>
+                <a class="m-2" href="/api/products?limit={{limit}}&page={{totalPages}}">{{totalPages}}</a>
+            {{#if hasNextPage}}
+                <a class="m-3" href="/api/products?limit={{limit}}&page={{nextPage}}">Siguiente</a>
+            {{/if}}
+        </p>
     </div>
 </div>
 

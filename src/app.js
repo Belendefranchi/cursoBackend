@@ -1,12 +1,14 @@
 import express from 'express';
+import session from 'express-session';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import mongoose from "mongoose";
+import MongoStore from 'connect-mongo';
 import __dirname from './utils.js';
+import sessionsRouter from './routes/sessions.router.js'
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
-import { productModel } from './models/products.model.js';
 
 const app = express();
 
@@ -25,13 +27,6 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
-
-app.use('/', viewsRouter);
-/* app.use('/realtimeproducts', realTimeProductsRouter); */
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
-
-
 try {
     await mongoose.connect('mongodb+srv://belendefranchi:yAZg4NDFZWERHnk9@cluster39760bdf.tv4a6we.mongodb.net/?retryWrites=true&w=majority');
     console.log('Base de datos conectada');
@@ -39,6 +34,22 @@ try {
 } catch (error) {
     console.log(error);
 }
+
+app.use(session({
+    store: MongoStore.create({
+        client: mongoose.connection.getClient(),
+        ttl: 3600
+    }),
+    secret: 'Coder39760',
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use('/', viewsRouter);
+app.use('/api/sessions', sessionsRouter);
+//app.use('/realtimeproducts', realTimeProductsRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
 const server = app.listen(8080, () => console.log ('Servidor escuchando en el puerto 8080'));
 

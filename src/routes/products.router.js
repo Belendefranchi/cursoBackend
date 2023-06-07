@@ -10,24 +10,65 @@ const manager = new ProductManager();
 
 router.get('/', async (req, res) => {
 
-    const limit = req.query.limit;
+    const { limit, page } = req.query;
 
     try {
-        const { products } = await manager.getAll();
+        //const { products } = await manager.getAll();
         if(limit){
-            //const result = resultPaginated.slice(0, limit);
-            const result = await productModel.paginate({}, { limit: limit, page: 1, lean: true });
-            console.log(JSON.stringify(result, null, '\t'));
 
-            res.render('products', { payload: result });
+            const {
+                docs,
+                totalPages,
+                hasPrevPage,
+                hasNextPage,
+                nextPage,
+                prevPage
+            } = await productModel.paginate({}, {
+                limit,
+                page,
+                lean : true})
+
+            res.render('products', {
+                payload: docs,
+                limit,
+                page,
+                totalPages,
+                hasPrevPage,
+                hasNextPage,
+                prevPage,
+                nextPage
+            });
             //res.send({ status: 'success', payload: result });
         }else{
-            //const result = products;
-            const result = await productModel.paginate({}, { limit: 10, page: 1, lean: true});
-            console.log(JSON.stringify(result, null, '\t'));
+            const {
+                docs,
+                totalPages,
+                hasPrevPage,
+                hasNextPage,
+                nextPage,
+                prevPage
+            } = await productModel.paginate({}, {
+                limit: 10,
+                page,
+                lean : true})
 
-            res.render('products', { payload: result });
+            res.render('products', {
+                payload: docs,
+                limit,
+                page,
+                totalPages,
+                hasPrevPage,
+                hasNextPage,
+                prevPage,
+                nextPage
+            });
+            //const result = products;
+            //const result = await productModel.paginate({}, { limit: 10, page: 1, lean: true});
+            
+            //res.render('products', { payload: result });
             //res.send({ status: 'success', payload: result });
+
+            //console.log(JSON.stringify(result, null, '\t'));
         }
     } catch (error) {
         console.log(error);
@@ -72,6 +113,8 @@ router.post('/', async (req, res) => {
 
     const products = await manager.getAll();
     const codeExist = products.find((product) => product.code === code);
+
+    //await manager.insertMany();
 
     if (codeExist) {
         console.log(`Ya existe un producto con el código: ${code}`);
