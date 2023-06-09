@@ -3,16 +3,16 @@
     <div class="card m-auto" style="width: 22rem;">
         <div class="card-body">
             <h3 class="card-title m-3">{{message}}</h3>
-            <form class="d-flex flex-wrap flex-column justify-content-center m-3" action="/" method="POST">
+            <form class="d-flex flex-wrap flex-column justify-content-center m-3" id="loginForm">
                 <div class="input-group input-group-lg  m-2">
                     <span class="input-group-text" id="inputGroup-sizing-lg" style="width: auto;"><img src="../img/usuario.png" alt="user" style="width: 2rem;"></span>
                     <input type="text" class="form-control" placeholder="Email" name="email" id="email" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
                 </div>
-                <div class="input-group input-group-lg  m-2">
-                    <span class="input-group-text" id="inputGroup-sizing-lg" style="width: auto;"><img src="../img/lock.png" alt="lock" style="width: 2rem;"></span>
-                    <input type="text" class="form-control" placeholder="Contraseña" name="password" id="password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                <div class="input-group input-group-lg m-2">
+                    <span class="input-group-text" id="inputGroup-sizing-lg" style="width: auto;"><img src="../img/lock.png" alt="password" style="width: 2rem;"></span>
+                    <input type="password" class="form-control" placeholder="Contraseña" name="password" id="password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
                 </div>
-                <input class="btn btn-primary m-2" type="submit" value="Iniciar sesión"/>
+                <input class="btn btn-primary m-2" type="submit" value="Ingresar"/>
             </form>
             <a href="" class="card-link m-2">Olvidaste tu contraseña?</a>
         </div>

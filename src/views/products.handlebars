@@ -1,28 +1,26 @@
+<a href="/api/sessions/logout"><button class="btn btn-primary">Salir</button></a>
 <div class="text-center">
-    <h1>Tu perfil</h1>
-    <p>{{user.name}}</p>
-    <p>{{user.email}}</p>
-    <p>{{user.age}}</p>
-    <a href="/api/sessions/logout"><button class="btn btn-primary">Salir</button></a>
     <h2 class="m-5">Productos disponibles</h2>
     <div class="m-auto" style="width: 24rem;" id="container">
         {{#each payload}}
-            <div class="card m-2" style="width: 22rem;">
-                <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
-                <div class="card-body">
-                    <a href="/api/products/{{this._id}}"><h5 class="card-title">{{this.title}}</h5></a>
-                    <h4 class="card-title">$ {{this.price}}</h4>
-                    <p class="card-text">Unidades: {{this.stock}}</p>
-                    <div class="d-flex gap-2">
-                        <form class="d-flex flex-wrap" action="/api/products/update/{{this._id}}" method="get">
-                            <input class="btn btn-primary" type="submit" value="Modificar producto"/>
-                        </form>
-                        <form class="d-flex flex-wrap" action="/api/carts/{{this._id}}" method="post">
-                            <input class="btn btn-primary" type="submit" value="Agregar al carrito"/>
-                        </form>
+            {{#if status}}
+                <div class="card m-2" style="width: 22rem;">
+                    <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
+                    <div class="card-body">
+                        <a href="/api/products/{{this._id}}"><h5 class="card-title">{{this.title}}</h5></a>
+                        <h4 class="card-title">$ {{this.price}}</h4>
+                        <p class="card-text">Unidades: {{this.stock}}</p>
+                        <div class="d-flex gap-2">
+                            <form class="d-flex flex-wrap" action="/api/products/update/{{this._id}}" method="get">
+                                <input class="btn btn-primary" type="submit" value="Modificar producto"/>
+                            </form>
+                            <form class="d-flex flex-wrap" action="/api/carts/{{this._id}}" method="post">
+                                <input class="btn btn-primary" type="submit" value="Agregar al carrito"/>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {{/if}}
         {{/each}}
         <p>
             {{#if hasPrevPage}}

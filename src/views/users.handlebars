@@ -2,6 +2,7 @@
     <h1>Hola {{user.name}}!</h1>
     <p>{{user.email}}</p>
     <p>{{user.age}}</p>
+    <a href="/api/sessions/logout"><button class="btn btn-primary">Salir</button></a>
 </div>
 <div class="text-center m-3">
     <h2>Mostrar productos</h2>
@@ -9,7 +10,7 @@
     <form class="d-flex" action="/api/products" method="GET">
         <label class="col-sm-2 col-form-label" for="limit">Límite:</label>
         <input class="form-control" type="number" name="limit">
-
+        <input class="form-control" type="number" name="page" value="1" hidden>
         <input class="btn btn-primary" type="submit" value="Ver">
     </form>
 </div>

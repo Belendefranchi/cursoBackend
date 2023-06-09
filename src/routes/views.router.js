@@ -23,27 +23,17 @@ router.get('/login', publicAccess, (req, res) => {
 });
 
 router.get('/', privateAccess, (req, res) => {
-    res.render('products', {
-        user: req.session.user
-    });
-});
 
-/* router.get('/', (req, res) => {
-    res.render('index', { title: 'Bienvenido al almacén de Coder', message: 'Inicia sesión' });
-}); */
+    const user = req.session.user;
 
-router.post('/', (req, res) => {
-    const user = req.body;
-    const userRole = user.role;
-    const userName = user.name;
-    if(userRole === 'admin'){
-        console.log(userRole);
-        console.log(userName);
-        res.render('admins', { userName });
-    }else{
-        console.log(userRole);
-        console.log(userName);
-        res.render('users', { userName });
+    if (user.role === 'admin') {
+        res.render('admins', { user: user });
+        console.log(user.name);
+        console.log(user.role);
+    } else {
+        res.render('users', { user: user });
+        console.log(user.name);
+        console.log(user.role);
     }
 });
 
