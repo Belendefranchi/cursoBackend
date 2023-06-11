@@ -4,11 +4,13 @@ import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import mongoose from "mongoose";
 import MongoStore from 'connect-mongo';
+import passport from 'passport';
 import __dirname from './utils.js';
 import sessionsRouter from './routes/sessions.router.js'
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
+import initializePassport from './config/passport.config.js';
 
 const app = express();
 
@@ -44,6 +46,12 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+//PASSPORT
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use('/', viewsRouter);
 app.use('/api/sessions', sessionsRouter);

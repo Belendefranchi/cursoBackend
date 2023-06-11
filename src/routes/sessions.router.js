@@ -1,10 +1,11 @@
 import { Router } from 'express';
+import passport from 'passport';
 import { createHash, isValidPassword } from '../utils.js';
 import userModel from '../models/users.model.js';
 
 const router = Router();
 
-router.post('/register', async (req, res) => {
+router.post('/register', passport.authenticate('register', {failureRedirect: 'fail-register'}), async (req, res) => {
     try {
         const { first_name, last_name, email, age, password } = req.body;
         const exists = await userModel.findOne({ email });
@@ -27,7 +28,11 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.post('/login', async (req, res) => {
+router.get('/fail-register', (req, res) => {
+    res.status(400).send({ status: 'error', message: 'Error al crear el usuario' });
+});
+
+router.post('/login', passport.authenticate('login', {failureRedirect: 'fail-login'}), async (req, res) => {
     try{
         const { email, password } = req.body;
 
@@ -67,6 +72,10 @@ router.post('/login', async (req, res) => {
         console.log(error);
         res.status(500).send({ status: 'error', error: error.message });
     }
+});
+
+router.get('/fail-login', (req, res) => {
+    res.status(400).send({ status: 'error', message: 'Error al iniciar sesión' });
 });
 
 router.get('/logout', (req, res) => {
