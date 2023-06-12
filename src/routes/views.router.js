@@ -22,6 +22,10 @@ router.get('/login', publicAccess, (req, res) => {
     res.render('login', { title: 'Bienvenido al almacén de Coder', message: 'Inicia sesión' });
 });
 
+router.get('/reset', publicAccess, (req, res) => {
+    res.render('reset');
+});
+
 router.get('/', privateAccess, (req, res) => {
 
     const user = req.session.user;

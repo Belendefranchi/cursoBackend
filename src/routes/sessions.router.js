@@ -5,7 +5,7 @@ import userModel from '../models/users.model.js';
 
 const router = Router();
 
-router.post('/register', passport.authenticate('register', {failureRedirect: 'fail-register'}), async (req, res) => {
+router.post('/register', passport.authenticate('register', { failureRedirect: '/fail-register' }), async (req, res) => {
     try {
         const { first_name, last_name, email, age, password } = req.body;
         const exists = await userModel.findOne({ email });
@@ -21,7 +21,7 @@ router.post('/register', passport.authenticate('register', {failureRedirect: 'fa
         };
 
         await userModel.create(user);
-        res.status(200).send({ status: 'success', message: 'Usuario creado' });
+        res.send({ status: 'success', message: 'Usuario creado' });
 
     } catch (error) {
         res.status(500).send({ status: 'error', error });
@@ -32,7 +32,7 @@ router.get('/fail-register', (req, res) => {
     res.status(400).send({ status: 'error', message: 'Error al crear el usuario' });
 });
 
-router.post('/login', passport.authenticate('login', {failureRedirect: 'fail-login'}), async (req, res) => {
+router.post('/login', passport.authenticate('login', { failureRedirect: '/fail-login' }), async (req, res) => {
     try{
         const { email, password } = req.body;
 
@@ -76,6 +76,40 @@ router.post('/login', passport.authenticate('login', {failureRedirect: 'fail-log
 
 router.get('/fail-login', (req, res) => {
     res.status(400).send({ status: 'error', message: 'Error al iniciar sesión' });
+});
+
+router.get('/github', passport.authenticate(
+    'github', { scope: ['user:email'] }
+), async (req, res) => {
+    res.send({ status: "success", message: "Usuario registrado con GitHub" });
+});
+
+router.get('/github-callback', passport.authenticate(
+    'github', { failureRedirect: '/login' }
+), async (req, res) => {
+    req.session.user = req.user;
+    res.redirect('/');
+});
+
+router.post('/reset', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) return res.status(400).send({ status: 'error', message: 'Datos incompletos' });
+
+        const user = userModel.findOne({ email });
+
+        if (!user) return res.status(400).send({ status: 'error', message: 'Usuario no encontrado' });
+
+        user.password = createHash(password);
+
+        await userModel.updateOne({ email }, user);
+
+        res.status(200).send({ status: 'success', message: 'Contraseña actualizada' });
+
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: 'Error al actualizar la contraseña' });
+    };
 });
 
 router.get('/logout', (req, res) => {
