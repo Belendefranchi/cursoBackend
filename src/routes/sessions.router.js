@@ -1,83 +1,65 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { createHash, isValidPassword } from '../utils.js';
+import { createHash } from '../utils.js';
 import userModel from '../models/users.model.js';
 
 const router = Router();
 
-router.post('/register', passport.authenticate('register', { failureRedirect: '/fail-register' }), async (req, res) => {
-    try {
-        const { first_name, last_name, email, age, password } = req.body;
-        const exists = await userModel.findOne({ email });
-
-        if (exists) return res.status(400).send('El email ya está registrado');
-
-        const user = {
-            first_name,
-            last_name,
-            email,
-            age,
-            password: createHash(password)
-        };
-
-        await userModel.create(user);
-        res.status(200).send({ status: 'success', message: 'Usuario creado' });
-
-    } catch (error) {
-        res.status(500).send({ status: 'error', error });
-    }
+router.post('/register', passport.authenticate('register', { failureRedirect: 'fail-register' }), async (req, res) => {
+    res.status(200).send({ status: 'success', message: 'Usuario creado' });
 });
 
 router.get('/fail-register', (req, res) => {
-    res.status(400).send({ status: 'error', message: 'Error al crear el usuario' });
+    res.send({ status: 'error', message: 'Error al crear el usuario' });
 });
 
-router.post('/login', passport.authenticate('login', { failureRedirect: '/fail-login' }), async (req, res) => {
-    try{
-        const { email, password } = req.body;
+router.post('/login', passport.authenticate('login', { failureRedirect: 'fail-login' }), async (req, res) => {
 
-        const user = await userModel.findOne({ email });
+    if (!req.user) return res.status(400).send({ status: 'error', message: 'Error al iniciar sesión' });
 
-        if (!user) return res.status(400).send({ status: 'error', message: 'Usuario no encontrado' });
+    const { email, password } = req.body;
 
+    if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
 
-        if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-
-            req.session.user = {
-                name: `${user.first_name} ${user.last_name}`,
-                email: user.email,
-                age: user.age,
-                role: 'admin'
-            };
-            console.log(req.session.user);
-
-            res.render('admins', { user: req.session.user });
-        } else {
-
-            delete user.password;
-
-            if(!isValidPassword(user, password)) return res.status(401).send({ status: 'error', message: 'Invalid password' });
-
-            req.session.user = {
-                name: `${user.first_name} ${user.last_name}`,
-                email: user.email,
-                age: user.age,
-                role: 'user'
-            };
-            console.log(req.session.user);
-            //res.redirect('/users');
-            res.status(200).send({ status: 'success', message: 'Usuario creado' });
+        req.session.user = {
+            name: `${req.user.first_name} ${req.user.last_name}`,
+            email: req.user.email,
+            age: req.user.age,
+            role: 'admin'
         };
+        console.log('true: admin')
+        return res.render('admins');
 
+    } else {
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({ status: 'error', error: error.message });
-    }
+        req.session.user = {
+            name: `${req.user.first_name} ${req.user.last_name}`,
+            email: req.user.email,
+            age: req.user.age,
+            role: 'user'
+        };
+        console.log('false: user')
+        return res.render('users');
+    };
 });
+
+/* router.post('/login', passport.authenticate('login', {failureRedirect: 'fail-login'}), async (req, res) => {
+
+    if (!req.user) return res.status(400).send({ status: 'error', message: 'Invalid credentials' });
+
+    req.session.user = {
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        age: req.user.age,
+        email: req.user.email,
+    }
+
+    res.status(200).send({ status: 'success', message: 'Login success' });
+
+}); */
 
 router.get('/fail-login', (req, res) => {
-    res.status(400).send({ status: 'error', message: 'Error al iniciar sesión' });
+    res.send({ status: 'error', message: 'Error al iniciar sesión' });
 });
 
 router.get('/github', passport.authenticate(
