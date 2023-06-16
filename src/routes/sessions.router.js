@@ -19,7 +19,7 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'fail-lo
 
     const { email, password } = req.body;
 
-    if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+    if (email === 'adminCoder@coder.com') {
 
         req.session.user = {
             name: `${req.user.first_name} ${req.user.last_name}`,
