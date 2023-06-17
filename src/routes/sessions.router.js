@@ -6,11 +6,13 @@ import userModel from '../models/users.model.js';
 const router = Router();
 
 router.post('/register', passport.authenticate('register', { failureRedirect: 'fail-register' }), async (req, res) => {
+    console.log(`true: ${req.user}`)
     res.status(200).send({ status: 'success', message: 'Usuario creado' });
 });
 
 router.get('/fail-register', (req, res) => {
-    res.send({ status: 'error', message: 'Error al crear el usuario' });
+    console.log(`false: ${req.user}`)
+    res.status(400).send({ status: 'error', message: 'Error al crear el usuario' });
 });
 
 router.post('/login', passport.authenticate('login', { failureRedirect: 'fail-login' }), async (req, res) => {
