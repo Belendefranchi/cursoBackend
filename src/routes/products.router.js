@@ -10,7 +10,7 @@ const manager = new ProductManager();
 
 router.get('/', async (req, res) => {
 
-    const { limit, page } = req.query;
+    const { limit, page, role, name, email, age } = req.query;
 
     try {
         //const { products } = await manager.getAll();
@@ -30,6 +30,10 @@ router.get('/', async (req, res) => {
 
             res.render('products', {
                 payload: docs,
+                role,
+                name,
+                email,
+                age,
                 limit,
                 page,
                 totalPages,
@@ -38,6 +42,7 @@ router.get('/', async (req, res) => {
                 prevPage,
                 nextPage
             });
+            console.log(role)
             //res.send({ status: 'success', payload: result });
         }else{
             const {
@@ -54,6 +59,10 @@ router.get('/', async (req, res) => {
 
             res.render('products', {
                 payload: docs,
+                role,
+                name,
+                email,
+                age,
                 limit,
                 page,
                 totalPages,
@@ -62,13 +71,8 @@ router.get('/', async (req, res) => {
                 prevPage,
                 nextPage
             });
-            //const result = products;
-            //const result = await productModel.paginate({}, { limit: 10, page: 1, lean: true});
-            
-            //res.render('products', { payload: result });
-            //res.send({ status: 'success', payload: result });
+            console.log(role)
 
-            //console.log(JSON.stringify(result, null, '\t'));
         }
     } catch (error) {
         console.log(error);
@@ -79,7 +83,7 @@ router.get('/:pid', async (req, res) => {
     const pid = req.params.pid;
     try {
         const result = await manager.getProductsById(pid);
-        console.log(result);
+        console.log(`products: ${result}`);
         res.render('productDetail', { payload: result });
         //res.send({ status: 'success', payload: result });
     } catch (error) {

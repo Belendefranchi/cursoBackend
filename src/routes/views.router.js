@@ -30,14 +30,14 @@ router.get('/', privateAccess, (req, res) => {
 
     const user = req.session.user;
 
-    if (user.role === 'admin') {
-        res.render('admins', { user: user });
+    if (user.isAdmin) {
+        res.render('admins', { user: user, role: user.isAdmin });
         console.log(user.name);
-        console.log(user.role);
+        console.log(user.isAdmin);
     } else {
-        res.render('users', { user: user });
+        res.render('users', { user: user, role: user.isAdmin });
         console.log(user.name);
-        console.log(user.role);
+        console.log(user.isAdmin);
     }
 });
 

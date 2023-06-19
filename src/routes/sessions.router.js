@@ -27,10 +27,10 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'fail-lo
             name: `${req.user.first_name} ${req.user.last_name}`,
             email: req.user.email,
             age: req.user.age,
-            role: 'admin'
+            isAdmin: true
         };
-        console.log('true: admin')
-        return res.render('admins');
+        console.log('sessions true: admin')
+        return res.render('admins', { user: req.session.user });
 
     } else {
 
@@ -38,27 +38,11 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'fail-lo
             name: `${req.user.first_name} ${req.user.last_name}`,
             email: req.user.email,
             age: req.user.age,
-            role: 'user'
         };
         console.log('false: user')
-        return res.render('users');
+        return res.render('users', { user: req.session.user });
     };
 });
-
-/* router.post('/login', passport.authenticate('login', {failureRedirect: 'fail-login'}), async (req, res) => {
-
-    if (!req.user) return res.status(400).send({ status: 'error', message: 'Invalid credentials' });
-
-    req.session.user = {
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        age: req.user.age,
-        email: req.user.email,
-    }
-
-    res.status(200).send({ status: 'success', message: 'Login success' });
-
-}); */
 
 router.get('/fail-login', (req, res) => {
     res.send({ status: 'error', message: 'Error al iniciar sesión' });
