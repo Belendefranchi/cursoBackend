@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import { createHash } from '../utils.js';
-import userModel from '../models/users.model.js';
+import userModel from '../dao/models/users.model.js';
 
 const router = Router();
 
@@ -64,20 +64,28 @@ router.get('/github-callback', passport.authenticate(
 router.post('/reset', async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(req.body);
 
-        if (!email || !password) return res.status(400).send({ status: 'error', message: 'Datos incompletos' });
+        if (!email || !password) {
+            console.log('Datos incompletos');
+            return res.status(400).send({ status: 'error', message: 'Datos incompletos' });
+        };
 
-        const user = userModel.findOne({ email });
+        const user = await userModel.findOne({ email });
 
-        if (!user) return res.status(400).send({ status: 'error', message: 'Usuario no encontrado' });
-
+        if (!user) {
+            console.log('Usuario no encontrado');
+            return res.status(400).send({ status: 'error', message: 'Usuario no encontrado' });
+        };
         user.password = createHash(password);
 
         await userModel.updateOne({ email }, user);
 
+        console.log('Contraseña actualizada');
         res.status(200).send({ status: 'success', message: 'Contraseña actualizada' });
 
     } catch (error) {
+        console.log('Error al actualizar la contraseña');
         res.status(500).send({ status: 'error', message: 'Error al actualizar la contraseña' });
     };
 });

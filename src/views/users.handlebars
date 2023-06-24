@@ -10,11 +10,11 @@
     <form class="d-flex" action="/api/products" method="GET">
         <label class="col-sm-2 col-form-label" for="limit">Límite:</label>
         <input class="form-control" type="number" name="limit">
-        <input class="form-control" type="number" name="page" value="1" hidden>
-        <input class="form-control" type="boolean" name="role" value="{{user.isAdmin}}" hidden>
-        <input class="form-control" type="text" name="name" value="{{user.name}}" hidden>
-        <input class="form-control" type="text" name="email" value="{{user.email}}" hidden>
-        <input class="form-control" type="text" name="age" value="{{user.age}}" hidden>
+        <input class="form-control" type="hidden" name="page" value="1">
+        <input class="form-control" type="hidden" name="role" value="{{user.isAdmin}}">
+        <input class="form-control" type="hidden" name="name" value="{{user.name}}">
+        <input class="form-control" type="hidden" name="email" value="{{user.email}}">
+        <input class="form-control" type="hidden" name="age" value="{{user.age}}">
         <input class="btn btn-primary" type="submit" value="Ver">
     </form>
 </div>

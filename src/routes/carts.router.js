@@ -1,21 +1,37 @@
 import { Router } from 'express';
-import CartManager from "../../managers/CartManager.js";
-import ProductManager from "../../managers/ProductManager.js";
+import CartManager from "../../src/dao/dbManagers/carts.manager.js";
+import { cartModel } from '../dao/models/carts.model.js';
+
 
 const router = Router();
 
-const manager = new CartManager('./files/Carts.json');
-const productManager = new ProductManager('./files/Products.json');
-
+const manager = new CartManager();
 
 /* const carts = []; */
 
 router.get('/', async (req, res) => {
-    const cartResult = await manager.getCarts();
-    res.send({ status: 'success', cartResult });
+    try {
+        const carts = await manager.getAll();
+        console.log(carts);
+        console.log(carts._id);
+        res.send({ status: 'success', cart: carts });
+    } catch (error) {
+        res.send({ status: 'error', message: 'Carrito no encontrado' });
+    }
 });
 
-/* router.post('/:ci/product/:pid', async (req, res) => {
+router.post('/product/:pid', async(req, res) => {
+
+    const productId = req.params.pid
+    const productQty = req.body.quantity
+    console.log(productId, productQty);
+
+    const resultCart = await manager.save(productId, productQty);
+    console.log(resultCart);
+    res.send ({ status: 'success', resultCart });
+});
+
+/* router.post('/:cid/product/:pid', async (req, res) => {
     const product = await productManager.getProductsById(Number(req.params.pid));
     if (!product) {
         res.send({ status: 'error', message: 'Producto no encontrado' });
@@ -27,14 +43,6 @@ router.get('/', async (req, res) => {
         res.send({ status: 'success', cart });
     }
 }); */
-
-router.post('/save', async(req, res) => {
-    const cart = {
-        products: []
-    };
-    const resultCart = await manager.saveCart(cart);
-    res.send ({ status: 'success', resultCart });
-});
 
 
 export default router;
