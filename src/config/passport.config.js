@@ -2,9 +2,13 @@ import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import userModel from '../dao/models/users.model.js';
+import CartManager from '../dao/dbManagers/carts.manager.js';
+import cartModel from '../dao/models/carts.model.js';
 import { createHash, isValidPassword } from '../utils.js';
 
 const LocalStrategy = local.Strategy;
+
+const manager = new CartManager();
 
 const initializePassport = () => {
 
@@ -23,12 +27,28 @@ const initializePassport = () => {
                 last_name,
                 email,
                 age,
-                password: createHash(password)
+                password: createHash(password),
             };
 
             const result = await userModel.create(userToSave);
 
-            return done(null, result);
+            const newCart = {
+                user: result._id,
+                products: []
+            };
+
+            await manager.save(newCart);
+
+            const userCart = await userModel.findOne({ _id: result._id });
+            console.log('userCart', userCart);
+
+            const cartId = await cartModel.findOne({ user: result._id });
+            console.log('cartId', cartId);
+
+            userCart.cart.push({ cart: cartId });
+
+            const result2 = await userModel.updateOne({ _id: result._id }, userCart);
+            return done(null, result2);
 
         } catch (error) {
             return done(`Error al crear el usuario: ${error}`);

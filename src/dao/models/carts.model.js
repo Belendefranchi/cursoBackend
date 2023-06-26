@@ -5,16 +5,31 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 const cartCollection = 'carts';
 
 const cartSchema = new mongoose.Schema({
-    product: {
-        type: String,
-        required: true,
+    user: {
+        type: Array,
+        default: []
     },
-    quantity: {
-        type: Number,
-        required: true,
-    }
+    products: [
+        {
+            product: {
+                type: String,
+                required: true,
+            },
+            quantity: {
+                type: Number,
+                required: true,
+            },
+        }
+    ]
 });
 
 cartSchema.plugin(mongoosePaginate);
 
-export const cartModel = mongoose.model(cartCollection, cartSchema);
+cartSchema.pre('find', function() {
+    this.populate('products.product');
+});
+
+
+const cartModel = mongoose.model(cartCollection, cartSchema);
+
+export default cartModel;

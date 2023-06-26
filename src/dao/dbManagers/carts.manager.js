@@ -1,4 +1,4 @@
-import { cartModel } from '../models/carts.model.js';
+import cartModel from '../models/carts.model.js';
 
 export default class CartManager {
     constructor() {
@@ -20,11 +20,11 @@ export default class CartManager {
         return cart.toObject();
     }
 
-    save = async (productId, productQty) => {
-        const newCart = {
+    save = async (newCart) => {
+/*         const newCart = {
             product: productId,
             quantity: productQty
-        };
+        }; */
         const result = await cartModel.create(newCart);
         return result;
     }

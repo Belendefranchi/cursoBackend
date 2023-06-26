@@ -42,7 +42,7 @@
                         <h4 class="card-title">$ {{this.price}}</h4>
                         <p class="card-text">Unidades: {{this.stock}}</p>
                         <form class="d-flex flex-wrap  justify-content-center" action="/api/carts/product/{{this._id}}" method="post">
-                            <input class="form-control" type="number" name="quantity" min="1">
+                            <input class="form-control" type="number" name="quantity" min="1" value="1">
                             <input class="btn btn-primary" type="submit" value="Agregar al carrito"/>
                         </form>
                     </div>
