@@ -1,7 +1,5 @@
 import { Router } from 'express';
 import CartManager from "../../src/dao/dbManagers/carts.manager.js";
-import cartModel from '../dao/models/carts.model.js';
-
 
 const router = Router();
 
@@ -13,36 +11,40 @@ router.get('/', async (req, res) => {
     try {
         const carts = await manager.getAll();
         console.log(carts);
-        console.log(carts._id);
-        res.send({ status: 'success', cart: carts });
+        res.send({ status: 'carts get: success', cart: carts });
     } catch (error) {
-        res.send({ status: 'error', message: 'Carrito no encontrado' });
+        res.send({ status: 'carts get: error', message: 'Carrito no encontrado' });
     }
 });
 
-router.post('/product/:pid', async(req, res) => {
-
-    const productId = req.params.pid
-    const productQty = req.body.quantity
-    console.log(productId, productQty);
-
-    const resultCart = await manager.save(productId, productQty);
-    console.log(resultCart);
-    res.send ({ status: 'success', resultCart });
+router.get('/:cid', async (req, res) => {
+    try {
+        const cartId = req.params.cid
+        console.log(`cartId: ${cartId}`);
+        const cart = await manager.getCartById(cartId);
+        console.log(cart);
+        res.send({ status: 'carts get: success', cart: cart });
+    } catch (error) {
+        res.send({ status: 'carts get: error', message: 'Carrito no encontrado' });
+    }
 });
 
-/* router.post('/:cid/product/:pid', async (req, res) => {
-    const product = await productManager.getProductsById(Number(req.params.pid));
-    if (!product) {
-        res.send({ status: 'error', message: 'Producto no encontrado' });
-        return;
-    }else{
-        const cartId = Number(req.params.ci);
-        const productId = Number(req.params.pid);
-        const cart = await CartManager.addProductToCart(cartId, productId);
-        res.send({ status: 'success', cart });
-    }
-}); */
+router.post('/:cid/products/:pid', async(req, res) => {
+    try {
+        const cartId = req.params.cid
+        const productId = req.params.pid
+        const productQty = req.body.quantity
+        console.log(`cartId: ${cartId}`);
+        console.log(`productId: ${productId}`);
+        console.log(`productQty: ${productQty}`);
 
+        const resultCart = await manager.addProductToCart(cartId, productId, productQty);
+        console.log(resultCart);
+
+        res.send ({ status: 'carts post: success', resultCart });
+    } catch (error) {
+        res.send ({ status: 'carts post: error', error: error });
+    }
+});
 
 export default router;

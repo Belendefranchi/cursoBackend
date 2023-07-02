@@ -6,20 +6,24 @@ import userModel from '../dao/models/users.model.js';
 const router = Router();
 
 router.post('/register', passport.authenticate('register', { failureRedirect: 'fail-register' }), async (req, res) => {
-    console.log(`true: ${req.user}`)
-    res.status(200).send({ status: 'success', message: 'Usuario creado' });
+    console.log(`Sessions.router: register success, ${req.user}`)
+    //res.status(200).send({ status: 'success', message: 'Usuario creado' });
+    return res.send("<script>alert('Usuario creado correctamente')</script>");
 });
 
 router.get('/fail-register', (req, res) => {
-    console.log(`false: ${req.user}`)
+    console.log(`Sessions.router: register fails ${req.user}`)
     res.status(400).send({ status: 'error', message: 'Error al crear el usuario' });
 });
 
 router.post('/login', passport.authenticate('login', { failureRedirect: 'fail-login' }), async (req, res) => {
 
-    if (!req.user) return res.status(400).send({ status: 'error', message: 'Error al iniciar sesión' });
+    if (!req.user) {
+        console.log('Sessions.router, login incomplete values')
+        res.status(400).send({ status: 'error', message: 'Error al iniciar sesión' });
+    }
 
-    const { email, password } = req.body;
+    const { email } = req.body;
 
     if (email === 'adminCoder@coder.com') {
 
@@ -29,7 +33,7 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'fail-lo
             age: req.user.age,
             isAdmin: true
         };
-        console.log('sessions true: admin')
+        console.log('Sessions login: admin')
         return res.render('admins', { user: req.session.user });
 
     } else {
@@ -38,13 +42,16 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'fail-lo
             name: `${req.user.first_name} ${req.user.last_name}`,
             email: req.user.email,
             age: req.user.age,
+            cartId: req.user.cart[0].cart.toString()
         };
-        console.log('false: user')
+        console.log('Sessions login: user')
+        console.log(req.session.user)
         return res.render('users', { user: req.session.user });
     };
 });
 
 router.get('/fail-login', (req, res) => {
+    console.log(`Sessions.router: login fails ${req.user}`)
     res.send({ status: 'error', message: 'Error al iniciar sesión' });
 });
 

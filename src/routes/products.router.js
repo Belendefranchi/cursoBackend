@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ProductManager from "../../src/dao/dbManagers/products.manager.js";
+import ProductManager from "../dao/dbManagers/products.manager.js";
 import { productModel } from '../dao/models/products.model.js';
 
 
@@ -10,7 +10,9 @@ const manager = new ProductManager();
 
 router.get('/', async (req, res) => {
 
-    const { limit, page, role, name, email, age } = req.query;
+    const { limit, page, role, name, email, age, cartId } = req.query;
+    //const cart = cartId.toString();
+    console.log(`Products.router: cart, ${cartId}`);
 
     try {
         //const { products } = await manager.getAll();
@@ -34,6 +36,7 @@ router.get('/', async (req, res) => {
                 name,
                 email,
                 age,
+                cartId,
                 limit,
                 page,
                 totalPages,
@@ -42,7 +45,7 @@ router.get('/', async (req, res) => {
                 prevPage,
                 nextPage
             });
-            console.log(role)
+            console.log(`Products.router: role, ${role}`)
             //res.send({ status: 'success', payload: result });
         }else{
             const {
@@ -63,6 +66,7 @@ router.get('/', async (req, res) => {
                 name,
                 email,
                 age,
+                cartId,
                 limit,
                 page,
                 totalPages,
@@ -71,8 +75,6 @@ router.get('/', async (req, res) => {
                 prevPage,
                 nextPage
             });
-            console.log(role)
-
         }
     } catch (error) {
         console.log(error);
@@ -83,7 +85,7 @@ router.get('/:pid', async (req, res) => {
     const pid = req.params.pid;
     try {
         const result = await manager.getProductsById(pid);
-        console.log(`products: ${result}`);
+        console.log(`Products.router: getProductById, ${result}`);
         res.render('productDetail', { payload: result });
         //res.send({ status: 'success', payload: result });
     } catch (error) {
@@ -96,8 +98,8 @@ router.get('/update/:pid', async (req, res) => {
     const pid = req.params.pid;
     const result = await manager.getProductsById(pid);
 
-    console.log(pid);
-    console.log(result);
+    console.log(`Products.router: pid, ${pid}`);
+    console.log(`Products.router: result, ${result}`);
 
     try {
         res.render('update', { payload: result });

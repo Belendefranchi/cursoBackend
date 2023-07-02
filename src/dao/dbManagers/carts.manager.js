@@ -16,47 +16,32 @@ export default class CartManager {
     }
 
     getCartById = async (cartId) => {
-        const cart = await cartModel.findOne(cartId);
-        return cart.toObject();
+        const cart = await cartModel.findOne({ _id: cartId });
+        return cart;
     }
 
     save = async (newCart) => {
-/*         const newCart = {
-            product: productId,
-            quantity: productQty
-        }; */
         const result = await cartModel.create(newCart);
         return result;
     }
 
-    addProductToCart = async (productId) => {
-        const carts = this.getCart();
-        console.log(carts);
-        if(!carts){
-            this.save(productId)
-        }else{
-            await cartModel.updateOne(productId);
-        };
+    addProductToCart = async (cartId, productId, productQty) => {
+        try {
+            console.log(cartId);
+            console.log(productId);
+            console.log(productQty);
 
-/*         try{
-            const product = productResult.find((product) => product.id === productId);
-            if (!product) {
-                console.log(`No existe el producto con id ${productId}`);
-            }else{
-            await cartModel.updateOne({ _id: id }, product);
-            };
-        }catch(error){
+            const result = await cartModel.updateOne({ _id: cartId }, {
+                products: [
+                    {
+                        product: productId,
+                        quantity: productQty
+                    }
+                ]
+            });
+            return result;
+        } catch (error) {
             console.log(error);
-        }; */
+        }
     }
-
-    update = async (id, product) => {
-
-    }
-
-    updateById = async (id, cart) => {
-        const result = await cartModel.updateOne({_id: id}, cart);
-        return result;
-    }
-
 }
