@@ -18,56 +18,63 @@
 </div>
 
 <div class="text-center">
-    <h2 class="m-5">Productos disponibles</h2>
-    <h3>{{cartId}}</h3>
-    <div class="m-auto" style="width: 24rem;" id="container">
-        {{#if role}}
-            {{#each payload}}
-                <div class="card m-2" style="width: 22rem;">
-                    <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
-                    <div class="card-body">
-                        <a href="/api/products/{{this._id}}"><h5 class="card-title">{{this.title}}</h5></a>
-                        <h4 class="card-title">$ {{this.price}}</h4>
-                        <p class="card-text">Unidades: {{this.stock}}</p>
-                        <form class="d-flex flex-wrap justify-content-center" action="/api/products/update/{{this._id}}" method="get">
-                            <input class="btn btn-primary" type="submit" value="Modificar producto"/>
-                        </form>
-                    </div>
-                </div>
-            {{/each}}
-        {{else}}
-            {{#each payload}}
-                <div class="card m-2" style="width: 22rem;">
-                    <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
-                    <div class="card-body">
-                        <a href="/api/products/{{this._id}}"><h5 class="card-title">{{this.title}}</h5></a>
-                        <h4 class="card-title">$ {{this.price}}</h4>
-                        <p class="card-text">Unidades: {{this.stock}}</p>
-                        <form class="d-flex flex-wrap justify-content-center" action="/api/carts/{{../cartId}}/products/{{this._id}}" method="post">
-                            <input class="form-control" type="text" name="cid" value="{{../cartId}}">
-                            <input class="form-control" type="text" name="pid" value="{{this._id}}">
-                            <input class="form-control" type="number" name="quantity" min="1" value="1">
-                            <input class="btn btn-primary" type="submit" value="Agregar al carrito"/>
-                        </form>
-                    </div>
-                </div>
-            {{/each}}
-        {{/if}}
-        <p>
-            {{#if hasPrevPage}}
-                <a class="m-3" href="/api/products?limit={{limit}}&page={{prevPage}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">Anterior</a>
-                <a class="m-2" href="/api/products?limit={{limit}}&page=1&role={{role}}&name={{name}}&email={{email}}&age={{age}}">1,</a>
-                <span class="m-2">...</span>
-            {{/if}}
-                <span class="m-2">{{page}}</span>
-                <span class="m-2">de</span>
-                <a class="m-2" href="/api/products?limit={{limit}}&page={{totalPages}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">{{totalPages}}</a>
-            {{#if hasNextPage}}
-                <a class="m-3" href="/api/products?limit={{limit}}&page={{nextPage}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">Siguiente</a>
-            {{/if}}
-        </p>
+  <h2 class="m-5">Productos disponibles</h2>
+  <div class="m-auto" style="width: 20rem;" id="container">
+    {{#if role}}
+      {{#each payload}}
+        <div class="card m-2">
+          <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
+          <div class="card-body">
+            <a href="/api/products/{{this._id}}">
+              <h5 class="card-title">{{this.title}}</h5>
+            </a>
+            <h4 class="card-title">$ {{this.price}}</h4>
+            <p class="card-text">Unidades: {{this.stock}}</p>
+            <form class="d-flex flex-wrap justify-content-center" action="/api/products/update/{{this._id}}" method="get">
+              <input class="btn btn-primary" type="submit" value="Modificar producto"/>
+            </form>
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      {{#each payload}}
+        <div class="card m-2">
+          <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
+          <div class="card-body">
+            <a href="/api/products/{{this._id}}">
+              <h5 class="card-title">{{this.title}}</h5>
+            </a>
+            <h4 class="card-title">$ {{this.price}}</h4>
+            <p class="card-text">Unidades: {{this.stock}}</p>
+            <form class="d-flex flex-wrap flex-column gap-2" action="/api/carts/{{../cartId}}/products/{{this._id}}" method="POST">
+              <input class="form-control text-center" type="text" name="cid" id="cid" value="{{../cartId}}">
+              <input class="form-control text-center" type="text" name="pid" id="pid" value="{{this._id}}">
+              <div class="d-flex flex-inline gap-2">
+                <input class="form-control w-25" type="number" name="quantity" id="quantity" min="1" value="1">
+                <input class="btn btn-primary w-75" type="submit" onClick="updateCart()" value="Agregar al carrito">
+              </div>
+            </form>
+          </div>
+        </div>
+      {{/each}}
+    {{/if}}
+    <div class="m-auto">
+      {{#if hasPrevPage}}
+        <a class="m-3" href="/api/products?limit={{limit}}&page={{prevPage}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">Anterior</a>
+        <a class="m-2" href="/api/products?limit={{limit}}&page=1&role={{role}}&name={{name}}&email={{email}}&age={{age}}">1,</a>
+        <span class="m-2">...</span>
+      {{/if}}
+        <span class="m-2">{{page}}</span>
+        <span class="m-2">de</span>
+        <a class="m-2" href="/api/products?limit={{limit}}&page={{totalPages}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">{{totalPages}}</a>
+      {{#if hasNextPage}}
+        <a class="m-3" href="/api/products?limit={{limit}}&page={{nextPage}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">Siguiente</a>
+      {{/if}}
     </div>
+  </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>
+<script src="/js/carts.js"></script>
+

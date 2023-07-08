@@ -5,10 +5,15 @@ import userModel from '../dao/models/users.model.js';
 import CartManager from '../dao/dbManagers/carts.manager.js';
 import cartModel from '../dao/models/carts.model.js';
 import { createHash, isValidPassword } from '../utils.js';
+import dotenv from 'dotenv';
 
 const LocalStrategy = local.Strategy;
 
 const manager = new CartManager();
+
+dotenv.config();
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 const initializePassport = () => {
 
@@ -62,7 +67,7 @@ const initializePassport = () => {
             const user = await userModel.findOne({ email: username });
             if (!user) return done(null, false);
 
-            if (username === 'adminCoder@coder.com' && password === 'adminCod3r123'){
+            if (username === ADMIN_EMAIL && password === ADMIN_PASSWORD){
                 return done(null, user);
             } else{
                 if (!isValidPassword(user, password)) return done(null, false);

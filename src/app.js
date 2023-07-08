@@ -11,6 +11,7 @@ import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import initializePassport from './config/passport.config.js';
+import dotenv from 'dotenv';
 
 const app = express();
 
@@ -29,20 +30,43 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
-try {
-    await mongoose.connect('mongodb+srv://belendefranchi:yAZg4NDFZWERHnk9@cluster39760bdf.tv4a6we.mongodb.net/?retryWrites=true&w=majority');
-    console.log('Base de datos conectada');
 
-} catch (error) {
-    console.log(error);
+dotenv.config();
+const PORT = process.env.PORT;
+const MONGO_URL = process.env.MONGO_URL;
+const SECRET = process.env.SECRET;
+
+console.log('PORT', PORT);
+console.log('MONGO_URL', MONGO_URL);
+console.log('SECRET', SECRET);
+
+
+const result = dotenv.config();
+
+if (result.error) {
+    console.error('Error al cargar el archivo .env:', result.error);
 }
+
+const connectToDatabase = async () => {
+    try {
+        await mongoose.connect(MONGO_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        })
+        console.log('Base de datos conectada');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+connectToDatabase();
 
 app.use(session({
     store: MongoStore.create({
         client: mongoose.connection.getClient(),
         ttl: 3600
     }),
-    secret: 'Coder39760',
+    secret: SECRET,
     resave: true,
     saveUninitialized: true
 }));
@@ -59,7 +83,8 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
-const server = app.listen(8080, () => console.log ('Servidor escuchando en el puerto 8080'));
+
+const server = app.listen(PORT, () => console.log ('Servidor escuchando en el puerto 8080'));
 
 const io = new Server(server);
 

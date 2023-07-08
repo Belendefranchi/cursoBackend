@@ -2,8 +2,12 @@ import { Router } from 'express';
 import passport from 'passport';
 import { createHash } from '../utils.js';
 import userModel from '../dao/models/users.model.js';
+import dotenv from 'dotenv';
 
 const router = Router();
+
+dotenv.config();
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 router.post('/register', passport.authenticate('register', { failureRedirect: 'fail-register' }), async (req, res) => {
     console.log(`Sessions.router: register success, ${req.user}`)
@@ -25,7 +29,7 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'fail-lo
 
     const { email } = req.body;
 
-    if (email === 'adminCoder@coder.com') {
+    if (email === ADMIN_EMAIL) {
 
         req.session.user = {
             name: `${req.user.first_name} ${req.user.last_name}`,
