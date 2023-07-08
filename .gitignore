@@ -1,5 +1,5 @@
 node_modules
 desafios
 toDoList
-.env
+*.env
 env.rar
