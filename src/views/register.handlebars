@@ -1,23 +1,36 @@
-<div>
-    <h1>Registro</h1>
-    <form id="registerForm">
-        <label>Nombre</label>
-        <input name="first_name">
-        <br/>
-        <label>Apellido</label>
-        <input name="last_name">
-        <br/>
-        <label>Email</label>
-        <input name="email">
-        <br/>
-        <label>Edad</label>
-        <input name="age">
-        <br/>
-        <label>Contraseña</label>
-        <input name="password">
-        <input type="submit">
-    </form>
-    <p>¿Ya tienes una cuenta? <a href="/login">Ingresa aquí</a></p>
+<div class="text-center">
+    <h1 class="m-5 text-center">Registro</h1>
+    <div class="card m-auto" style="width: 22rem;" id="container">
+        <div class="card-body">
+            <form class="d-flex flex-wrap justify-content-center gap-3" id="registerForm">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" style="width: 8rem;">Nombre</span>
+                    <input class="form-control" name="first_name">
+                </div>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" style="width: 8rem;">Apellido</span>
+                    <input class="form-control" name="last_name">
+                </div>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" style="width: 8rem;">Email</span>
+                    <input class="form-control" name="email">
+                </div>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" style="width: 8rem;">Edad</span>
+                    <input class="form-control" name="age" type="number">
+                </div>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" style="width: 8rem;">Contraseña</span>
+                    <input class="form-control" name="password">
+                </div>
+                <input class="btn btn-primary fs-5 m-3" type="submit">
+            </form>
+        </div>
+        <div class="card-footer text-body-secondary">
+            <h5 class="card-subtitle">¿Ya tienes una cuenta?</h5>
+            <a href="/login" class="card-link">Ingresa aquí</a>
+        </div>
+    </div>
 </div>
 
 <script src="/js/register.js"></script>

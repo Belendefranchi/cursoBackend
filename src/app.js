@@ -80,8 +80,8 @@ app.use(passport.session());
 app.use('/', viewsRouter);
 app.use('/api/sessions', sessionsRouter);
 //app.use('/realtimeproducts', realTimeProductsRouter);
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
+app.use('/products', productsRouter);
+app.use('/carts', cartsRouter);
 
 
 const server = app.listen(PORT, () => console.log ('Servidor escuchando en el puerto 8080'));

@@ -7,7 +7,7 @@
 <div class="text-center m-3">
     <h2>Mostrar productos</h2>
     <p>Si no se completa el valor límite, se mostrarán todos los productos.</p>
-    <form class="d-flex" action="/api/products" method="GET">
+    <form class="d-flex" action="/products" method="GET">
         <label class="col-sm-2 col-form-label" for="limit">Límite:</label>
         <input class="form-control" type="number" name="limit">
         <input class="form-control" type="hidden" name="page" value="1">
@@ -21,7 +21,7 @@
 <div class="text-center m-3">
     <h2>Cargar productos nuevos</h2>
 
-    <form action="/api/products" method="POST">
+    <form action="/products" method="POST">
         <div class="row mb-3">
             <label for="title" class="col-sm-2 col-form-label">Titulo:</label>
             <div class="col-sm-10">

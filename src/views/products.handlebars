@@ -25,12 +25,12 @@
         <div class="card m-2">
           <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
           <div class="card-body">
-            <a href="/api/products/{{this._id}}">
+            <a href="/products/{{this._id}}">
               <h5 class="card-title">{{this.title}}</h5>
             </a>
             <h4 class="card-title">$ {{this.price}}</h4>
             <p class="card-text">Unidades: {{this.stock}}</p>
-            <form class="d-flex flex-wrap justify-content-center" action="/api/products/update/{{this._id}}" method="get">
+            <form class="d-flex flex-wrap justify-content-center" action="/products/update/{{this._id}}" method="get">
               <input class="btn btn-primary" type="submit" value="Modificar producto"/>
             </form>
           </div>
@@ -41,12 +41,12 @@
         <div class="card m-2">
           <img src="{{this.image}}" class="card-img-top" alt="Imagen del producto">
           <div class="card-body">
-            <a href="/api/products/{{this._id}}">
+            <a href="/products/{{this._id}}">
               <h5 class="card-title">{{this.title}}</h5>
             </a>
             <h4 class="card-title">$ {{this.price}}</h4>
             <p class="card-text">Unidades: {{this.stock}}</p>
-            <form class="d-flex flex-wrap flex-column gap-2" action="/api/carts/{{../cartId}}/products/{{this._id}}" method="POST">
+            <form class="d-flex flex-wrap flex-column gap-2" action="/carts/{{../cartId}}/products/{{this._id}}" method="POST">
               <input class="form-control text-center" type="text" name="cid" id="cid" value="{{../cartId}}">
               <input class="form-control text-center" type="text" name="pid" id="pid" value="{{this._id}}">
               <div class="d-flex flex-inline gap-2">
@@ -60,15 +60,15 @@
     {{/if}}
     <div class="m-auto">
       {{#if hasPrevPage}}
-        <a class="m-3" href="/api/products?limit={{limit}}&page={{prevPage}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">Anterior</a>
-        <a class="m-2" href="/api/products?limit={{limit}}&page=1&role={{role}}&name={{name}}&email={{email}}&age={{age}}">1,</a>
+        <a class="m-3" href="/products?limit={{limit}}&page={{prevPage}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">Anterior</a>
+        <a class="m-2" href="/products?limit={{limit}}&page=1&role={{role}}&name={{name}}&email={{email}}&age={{age}}">1,</a>
         <span class="m-2">...</span>
       {{/if}}
         <span class="m-2">{{page}}</span>
         <span class="m-2">de</span>
-        <a class="m-2" href="/api/products?limit={{limit}}&page={{totalPages}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">{{totalPages}}</a>
+        <a class="m-2" href="/products?limit={{limit}}&page={{totalPages}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">{{totalPages}}</a>
       {{#if hasNextPage}}
-        <a class="m-3" href="/api/products?limit={{limit}}&page={{nextPage}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">Siguiente</a>
+        <a class="m-3" href="/products?limit={{limit}}&page={{nextPage}}&role={{role}}&name={{name}}&email={{email}}&age={{age}}">Siguiente</a>
       {{/if}}
     </div>
   </div>

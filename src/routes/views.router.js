@@ -14,12 +14,12 @@ const privateAccess = (req, res, next) => {
     next();
 };
 
-router.get('/register', publicAccess, (req, res) => {
-    res.render('register');
-});
-
 router.get('/login', publicAccess, (req, res) => {
     res.render('login', { title: 'Bienvenido al almacén de Coder', message: 'Inicia sesión' });
+});
+
+router.get('/register', publicAccess, (req, res) => {
+    res.render('register');
 });
 
 router.get('/reset', (req, res) => {
