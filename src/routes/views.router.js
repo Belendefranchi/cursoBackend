@@ -1,6 +1,8 @@
-import { Router } from 'express';
+//import { Router } from 'express';
+import Router from './router.js';
 
-const router = new Router();
+
+//const router = new Router();
 
 //Acceso público
 const publicAccess = (req, res, next) => {
