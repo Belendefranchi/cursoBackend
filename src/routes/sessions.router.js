@@ -1,16 +1,16 @@
-//import { Router } from 'express';
-import Router from './router.js';
+import { Router } from 'express';
+//import Router from './router.js';
 import passport from 'passport';
 import { createHash } from '../utils.js';
-import userModel from '../dao/models/users.model.js';
+import userModel from '../dao/dbManagers/models/users.model.js';
 import dotenv from 'dotenv';
 
-//const router = Router();
+const router = Router();
 
 dotenv.config();
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
-export default class SessionsRouter extends Router {
+/* export default class SessionsRouter extends Router {
     init(){
         this.post('/register', ['PUBLIC'], passport.authenticate('register', { failureRedirect: 'fail-register' }), async (req, res) => {
             console.log(`Sessions.router: register success, ${req.user}`)
@@ -111,11 +111,11 @@ export default class SessionsRouter extends Router {
             });
         });
     }
-}
+} */
 
 //#################### ANTES DE CAPAS ####################//
 
-/* router.post('/register', passport.authenticate('register', { failureRedirect: 'fail-register' }), async (req, res) => {
+router.post('/register', passport.authenticate('register', { failureRedirect: 'fail-register' }), async (req, res) => {
     console.log(`Sessions.router: register success, ${req.user}`)
     res.status(200).send({ status: 'success', message: 'Usuario creado' });
 });
@@ -214,4 +214,4 @@ router.get('/logout', (req, res) => {
     });
 });
 
-export default router; */
+export default router;

@@ -1,9 +1,9 @@
 import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
-import userModel from '../dao/models/users.model.js';
+import userModel from '../dao/dbManagers/models/users.model.js';
 import CartManager from '../dao/dbManagers/carts.manager.js';
-import cartModel from '../dao/models/carts.model.js';
+import cartModel from '../dao/dbManagers/models/carts.model.js';
 import { createHash, isValidPassword } from '../utils.js';
 import dotenv from 'dotenv';
 

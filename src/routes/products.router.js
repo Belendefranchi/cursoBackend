@@ -1,12 +1,16 @@
 import { Router } from "express";
 import ProductManager from "../dao/dbManagers/products.manager.js";
-import { productModel } from "../dao/models/products.model.js";
+import { productModel } from "../dao/dbManagers/models/products.model.js";
+import { getProducts, saveProduct } from "../controllers/products.controller.js";
 
 const router = Router();
 
 const manager = new ProductManager();
 
-router.get("/", async (req, res) => {
+router.get("/", getProducts);
+router.get("/", saveProduct);
+
+/* router.get("/", async (req, res) => {
   const { limit, page, role, name, email, age, cartId } = req.query;
 
   res.cookie('cart', cartId);
@@ -100,11 +104,6 @@ router.get("/update/:pid", async (req, res) => {
     console.log(error);
   }
 });
-
-/* router.post('/', async (req, res) => {
-    const products = await manager.insertMany();
-    res.send({ status: 'success', product });
-}); */
 
 router.post("/", async (req, res) => {
   const {
@@ -212,6 +211,6 @@ router.delete("/update/:pid", async (req, res) => {
 
   const deleteProduct = await manager.deleteOne(pid);
   res.send({ status: "success", payload: deleteProduct });
-});
+}); */
 
 export default router;

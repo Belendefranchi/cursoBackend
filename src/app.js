@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import __dirname from './utils.js';
+import './dao/dbManagers/dbConfig.js';
 import sessionsRouter from './routes/sessions.router.js'
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
@@ -33,11 +34,11 @@ app.set('view engine', 'handlebars');
 
 dotenv.config();
 const PORT = process.env.PORT;
-const MONGO_URL = process.env.MONGO_URL;
+//const MONGO_URL = process.env.MONGO_URL;
 const SECRET = process.env.SECRET;
 
 console.log('PORT', PORT);
-console.log('MONGO_URL', MONGO_URL);
+//console.log('MONGO_URL', MONGO_URL);
 console.log('SECRET', SECRET);
 
 
@@ -47,7 +48,7 @@ if (result.error) {
     console.error('Error al cargar el archivo .env:', result.error);
 }
 
-const connectToDatabase = async () => {
+/* const connectToDatabase = async () => {
     try {
         await mongoose.connect(MONGO_URL, {
             useNewUrlParser: true,
@@ -59,7 +60,7 @@ const connectToDatabase = async () => {
     }
 }
 
-connectToDatabase();
+connectToDatabase(); */
 
 app.use(session({
     store: MongoStore.create({
