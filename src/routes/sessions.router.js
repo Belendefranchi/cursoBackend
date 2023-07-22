@@ -113,7 +113,7 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
     }
 } */
 
-//#################### ANTES DE CAPAS ####################//
+//##################################################################################################//
 
 router.post('/register', passport.authenticate('register', { failureRedirect: 'fail-register' }), async (req, res) => {
     console.log(`Sessions.router: register success, ${req.user}`)
