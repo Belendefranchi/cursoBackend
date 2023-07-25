@@ -19,7 +19,6 @@ const saveProduct = async (product) => {
 
 const generateProductsFaker = () => {
   const products = productsFaker();
-  console.log(`Service: ${products}`);
   return products;
 };
 

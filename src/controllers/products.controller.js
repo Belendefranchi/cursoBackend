@@ -28,11 +28,13 @@ const saveProduct = async (req, res) => {
 
 const generateProductsFaker = async (req, res) => {
   let productsFaker = [];
+
   for(let i = 0; i < 50; i++) {
     productsFaker.push(generateProductsFakerService());
-    console.log(`Controller: ${productsFaker[i]}`);
+    //console.log(`Controller: ${JSON.stringify(productsFaker[i], null, 2)}`);
   }
-  res.json({ status: 'ok', count: productsFaker.length, data: productsFaker})
+  console.log("Controller: productos creados correctamente");
+  res.send({ status: 'ok', count: productsFaker.length, data: productsFaker})
 }
 
 const updateProduct = async (req, res) => {
