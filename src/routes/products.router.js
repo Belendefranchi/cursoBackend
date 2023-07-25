@@ -1,14 +1,14 @@
 import { Router } from "express";
 import ProductManager from "../dao/dbManagers/products.manager.js";
 import { productModel } from "../dao/dbManagers/models/products.model.js";
-import { getProducts, getProductsById, saveProduct } from "../controllers/products.controller.js";
+import { getProducts, getProductById, saveProduct } from "../controllers/products.controller.js";
 
 const router = Router();
 
 const manager = new ProductManager();
 
 router.get("/", getProducts);
-router.get("/:pid", getProductsById);
+router.get("/:pid", getProductById);
 router.get("/", saveProduct);
 
 /* router.get("/", async (req, res) => {

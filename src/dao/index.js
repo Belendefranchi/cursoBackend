@@ -1,8 +1,8 @@
 import mongoProductDao from './dbManagers/products.dao.js';
-//import del dao de manejo de datos con archivos
+import memoryProductDao from './fileManagers/products.dao.js';
 
 const MongoProductDao = new mongoProductDao();
-//Crear las instancias de manejo de datos con archivos
+const MemoryProductDao = new memoryProductDao();
 
 //export const PRODUCTSDAO = config.persistence === 'MEMORY' ? MemoryProductDao : MongoProductDao;
 export const PRODUCTSDAO = MongoProductDao;

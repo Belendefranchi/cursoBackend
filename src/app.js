@@ -10,6 +10,7 @@ import './dao/dbManagers/dbConfig.js';
 import sessionsRouter from './routes/sessions.router.js'
 import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
+import productsFakerRouter from "./routes/productsFaker.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import initializePassport from './config/passport.config.js';
 import dotenv from 'dotenv';
@@ -83,6 +84,7 @@ app.use('/api/sessions', sessionsRouter);
 //app.use('/realtimeproducts', realTimeProductsRouter);
 app.use('/products', productsRouter);
 app.use('/carts', cartsRouter);
+app.use('/mockingproducts', productsFakerRouter);
 
 
 const server = app.listen(PORT, () => console.log ('Servidor escuchando en el puerto 8080'));

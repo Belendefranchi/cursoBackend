@@ -7,6 +7,7 @@ dotenv.config(
 );
 
 export default {
+    persistence: process.env.PERSISTENCE,
     port: process.env.PORT,
     mongoUrl: process.env.MONGO_URL,
 };
