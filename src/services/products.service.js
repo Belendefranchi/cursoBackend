@@ -1,42 +1,49 @@
-import { PRODUCTSDAO } from '../dao/index.js';
-import { productsFaker } from "../mocks/productsFaker.js";
+import ProductsRepository from '../repositories/products.repository.js';
+//import { productsFaker } from "../mocks/productsFaker.js";
 
+const productsRepository = new ProductsRepository();
 
 const getProducts = async () => {
-  const products = await PRODUCTSDAO.getAll();
+  const products = await productsRepository.getProducts();
   return products;
 };
 
-const getProductById = async (_id) => {
-  const product = await PRODUCTSDAO.getById(_id);
+const getProductsPaginated = async (limit, page) => {
+  const products = await productsRepository.getProductsPaginated(limit, page);
+  return products;
+};
+
+const getProductById = async (id) => {
+  const product = await productsRepository.getProductById(id);
   return product;
 };
 
-const saveProduct = async (product) => {
-  await PRODUCTSDAO.save(product);
-  return product;
+const createProduct = async (product) => {
+  const result = await productsRepository.createProduct(product);
+  return result;
 };
 
-const generateProductsFaker = () => {
+/* const generateProductsFaker = () => {
   const products = productsFaker();
   return products;
-};
+}; */
 
-const updateProduct = async (id, product) => {
-  await PRODUCTSDAO.updateOne(id, product);
-  return product;
+const updateProduct = async (product, id) => {
+  product.products.push(id);
+  const result = await productsRepository.updateProduct(product);
+  return result;
 };
 
 const deleteProduct = async (id) => {
-  await PRODUCTSDAO.deleteOne(id);
-  return id;
+  const result = await productsRepository.deleteProduct(id);
+  return result;
 };
 
 export {
   getProducts,
+  getProductsPaginated,
   getProductById,
-  saveProduct,
-  generateProductsFaker,
+  createProduct,
   updateProduct,
   deleteProduct
 };

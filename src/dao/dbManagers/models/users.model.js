@@ -26,17 +26,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         default: 'user'
     },
-    cart: {
-        type: [
-            {
-                cart: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'carts'
-                }
-            }
-        ],
-        default: []
-    }
 });
 
 const userModel = mongoose.model(userCollection, userSchema);

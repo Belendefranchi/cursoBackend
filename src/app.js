@@ -1,91 +1,73 @@
 import express from 'express';
-import session from 'express-session';
+import config from './config/config.js';
+import './dao/dbManagers/dbConfig.js';
+import { __dirname, __mainDirname, addLogger } from "./utils/utils.js";
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
-import mongoose from "mongoose";
-import MongoStore from 'connect-mongo';
-import passport from 'passport';
-import __dirname from './utils.js';
-import './dao/dbManagers/dbConfig.js';
-import sessionsRouter from './routes/sessions.router.js'
-import viewsRouter from "./routes/views.router.js";
-import productsRouter from "./routes/products.router.js";
-import productsFakerRouter from "./routes/productsFaker.router.js";
-import cartsRouter from "./routes/carts.router.js";
+import ViewsRouter from "./routes/views.router.js";
+import UsersRouter from './routes/users.router.js'
+import ProductsRouter from "./routes/products.router.js";
+import CartsRouter from "./routes/carts.router.js";
+//import productsFakerRouter from "./routes/productsFaker.router.js";
 import initializePassport from './config/passport.config.js';
-import dotenv from 'dotenv';
+import passport from "passport";
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
+
+//const viewsRouter = new ViewsRouter();
+const usersRouter = new UsersRouter();
+/* const productsRouter = new ProductsRouter();
+const cartsRouter = new CartsRouter(); */
+
 
 const app = express();
 
-//const manager = new ProductManager('./files/Products.json');
-
+// Configuración de express
 // para agregar funcionalidad de json
 app.use(express.json());
-
 // para agregar funcionalidad de url params
 app.use(express.urlencoded({ extended: true }));
-
 // para agregar funcionalidad de archivos estáticos
 app.use(express.static(`${__dirname}/public`));
 
+// Configuración de handlebars
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
-
-dotenv.config();
-const PORT = process.env.PORT;
-//const MONGO_URL = process.env.MONGO_URL;
-const SECRET = process.env.SECRET;
-
-console.log('PORT', PORT);
-//console.log('MONGO_URL', MONGO_URL);
-console.log('SECRET', SECRET);
-
-
-const result = dotenv.config();
-
-if (result.error) {
-    console.error('Error al cargar el archivo .env:', result.error);
-}
-
-/* const connectToDatabase = async () => {
-    try {
-        await mongoose.connect(MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        })
-        console.log('Base de datos conectada');
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-connectToDatabase(); */
-
-app.use(session({
-    store: MongoStore.create({
-        client: mongoose.connection.getClient(),
-        ttl: 3600
-    }),
-    secret: SECRET,
-    resave: true,
-    saveUninitialized: true
-}));
-
-//PASSPORT
+//configuración de passport
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
+//configuración de logger
+app.use(addLogger);
 
-app.use('/', viewsRouter);
-app.use('/api/sessions', sessionsRouter);
-//app.use('/realtimeproducts', realTimeProductsRouter);
-app.use('/products', productsRouter);
-app.use('/carts', cartsRouter);
-app.use('/mockingproducts', productsFakerRouter);
+//configuración de swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentación de la 4ta práctica integradora',
+            description: 'API usada para el manejo de asignación de estudiantes a sus respectivos cursos'
+        }
+    },
+    apis: [`${__mainDirname}/docs/**/*.yaml`]
+};
 
+console.log(__mainDirname);
+
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
+
+//app.use('/', viewsRouter.getRouter());
+app.use('/api/users', usersRouter.getRouter());
+/* app.use('/api/products', productsRouter.getRouter());
+app.use('/api/carts', cartsRouter.getRouter()); */
+//app.use('/api/mockingproducts', productsFakerRouter);
+
+const PORT = config.port;
 
 const server = app.listen(PORT, () => console.log ('Servidor escuchando en el puerto 8080'));
 

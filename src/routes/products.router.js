@@ -1,15 +1,27 @@
-import { Router } from "express";
-import ProductManager from "../dao/dbManagers/products.manager.js";
-import { productModel } from "../dao/dbManagers/models/products.model.js";
-import { getProducts, getProductById, saveProduct } from "../controllers/products.controller.js";
+import Router from './router.js';
+import { passportStrategiesEnum } from '../config/enums.js';
+import {
+  getProducts,
+  getProductsPaginated,
+  getProductById,
+  createProduct,
+  addProduct,
+  deleteProduct
+} from "../controllers/products.controller.js";
 
-const router = Router();
-
-const manager = new ProductManager();
-
-router.get("/", getProducts);
+export default class ProductsRouter extends Router {
+  init() {
+          this.get('/', ['USER'], passportStrategiesEnum.JWT, getProducts);
+          this.get('/paginated', ['USER'], passportStrategiesEnum.JWT, getProductsPaginated);
+          this.get('/:pid', ['USER'], passportStrategiesEnum.JWT, getProductById);
+          this.post('/', ['ADMIN'], passportStrategiesEnum.JWT, createProduct);
+          this.put('/', ['ADMIN'], passportStrategiesEnum.JWT, addProduct);
+          this.delete('/', ['ADMIN'], passportStrategiesEnum.JWT, deleteProduct);
+  }
+}
+/* router.get("/", getProducts);
 router.get("/:pid", getProductById);
-router.get("/", saveProduct);
+router.get("/", saveProduct); */
 
 /* router.get("/", async (req, res) => {
   const { limit, page, role, name, email, age, cartId } = req.query;
@@ -214,4 +226,4 @@ router.delete("/update/:pid", async (req, res) => {
   res.send({ status: "success", payload: deleteProduct });
 }); */
 
-export default router;
+//export default router;

@@ -1,55 +1,110 @@
-import {
-  getProducts as getProductsService,
-  getProductById as getProductByIdService,
-  saveProduct as saveProductService,
-  generateProductsFaker as generateProductsFakerService,
-  updateProduct as updateProductService,
-  deleteProduct as deleteProductService
-} from '../services/products.service.js';
+import * as productsService from '../services/products.service.js';
+import {  NotFound, AlreadyExists } from "../utils/custom-exceptions.js";
 
 const getProducts = async (req, res) => {
-  const products = await getProductsService();
-  res.send({ status: 'success', products });
-  //res.render('products', { products })
+  try {
+    const result = await productsService.getProducts();
+    //res.sendSuccess({ result });
+    res.render('products', { result })
+  } catch (error) {
+    req.logger.error(error.message);
+    if (error instanceof NotFound){
+      return res.sendClientError('Product Controller: Products not found');
+    }
+    res.sendServerError(error.message);
+  }
+}
+
+const getProductsPaginated =async (req, res) => {
+  try {
+    const { limit = 10, page = 1 } = req.query;
+    const result = await productsService.getProductsPaginated(limit, page);
+    res.sendSuccess({ result });
+} catch (error) {
+  req.logger.error(error.message);
+  if (error instanceof NotFound){
+    return res.sendClientError('Product Controller: Products not found');
+  }
+    res.sendServerError(error.message);
+}
 }
 
 const getProductById = async (req, res) =>{
-  const pid = req.params.pid
-  console.log(`pid en controller: ${pid}`);
-  await getProductByIdService(pid);
-  res.send({ status: 'success', pid });
+  try {
+    const { pid } = req.params.pid
+    console.log(`pid en products Product controller: ${pid}`);
+    const result = await productsService.getProductById(pid);
+    res.sendSuccess({ result });
+  } catch (error) {
+    req.logger.error(error.message);
+    if (error instanceof NotFound){
+      return res.sendClientError('Controller: Product not found');
+    }
+    res.sendServerError(error.message);
+  }
 }
 
-const saveProduct = async (req, res) => {
-  const product = req.body;
-  await saveProductService(product);
-  res.send({ status: 'success', product });
+const createProduct = async (req, res) => {
+  try {
+    const product = req.body;
+    const result = await productsService.createProduct(product);
+    res.sendSuccess({ result });
+  } catch (error) {
+    req.logger.error(error.message);
+    if (error instanceof AlreadyExists){
+      return res.sendClientError('Product Controller: Product already exists');
+    }
+    res.sendServerError(error.message);
+  }
 }
 
-const generateProductsFaker = async (req, res) => {
+const addProduct = async (req, res) => {
+  try {
+    const product = req.body;
+    const result = await productsService.getProductById(req.params.id);
+
+    const updateResult = await productsService.updateProduct(result, product);
+    res.sendSuccess({ updateResult });
+  } catch (error) {
+    req.logger.error(error.message);
+    if (error instanceof NotFound){
+      return res.sendClientError('Controller: Product not found');
+    }
+    res.sendServerError(error.message);
+  }
+};
+
+const deleteProduct = async (req, res) => {
+  try {
+    const product = req.body;
+    const result = await productsService.getProductById(req.params.id);
+
+    const updateResult = await productsService.deleteProduct(result, product);
+    res.sendSuccess({ updateResult });
+  } catch (error) {
+    req.logger.error(error.message);
+    if (error instanceof NotFound){
+      return res.sendClientError('Controller: Product not found');
+    }
+    res.sendServerError(error.message);
+  }
+}
+/* const generateProductsFaker = async (req, res) => {
   let productsFaker = [];
 
   for(let i = 0; i < 50; i++) {
     productsFaker.push(generateProductsFakerService());
-    //console.log(`Controller: ${JSON.stringify(productsFaker[i], null, 2)}`);
+    //console.log(`Product Controller: ${JSON.stringify(productsFaker[i], null, 2)}`);
   }
-  console.log("Controller: productos creados correctamente");
+  console.log("Product Controller: productos creados correctamente");
   res.send({ status: 'ok', count: productsFaker.length, data: productsFaker})
-}
-
-const updateProduct = async (req, res) => {
-
-}
-
-const deleteProduct = async (req, res) => {
-
-}
+} */
 
 export {
   getProducts,
+  getProductsPaginated,
   getProductById,
-  saveProduct,
-  generateProductsFaker,
-  updateProduct,
+  createProduct,
+  addProduct,
   deleteProduct
 }

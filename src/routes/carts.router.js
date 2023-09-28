@@ -1,11 +1,17 @@
-import { Router } from "express";
-import CartManager from "../../src/dao/dbManagers/carts.manager.js";
+import Router from './router.js';
+import { passportStrategiesEnum } from '../config/enums.js';
+import { getCarts, getCartById, createCart, resolveCart } from '../controllers/carts.controller.js'
 
 const router = Router();
 
-const manager = new CartManager();
-
-/* const carts = []; */
+export default class CartsRouter extends Router {
+  init() {
+    this.get('/', ['ADMIN'], passportStrategiesEnum.JWT, getCarts);
+    this.get('/:id', ['ADMIN'], passportStrategiesEnum.JWT, getCartById);
+    this.post('/', ['ADMIN'], passportStrategiesEnum.JWT, createCart);
+    this.put('/:id', ['ADMIN'], passportStrategiesEnum.JWT, resolveCart);
+  }
+}
 
 router.get("/", async (req, res) => {
   try {
@@ -56,4 +62,4 @@ router.post("/:cid/products/:pid", async (req, res) => {
   }
 });
 
-export default router;
+//export default router;
