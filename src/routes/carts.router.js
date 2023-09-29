@@ -6,22 +6,12 @@ const router = Router();
 
 export default class CartsRouter extends Router {
   init() {
-    this.get('/', ['ADMIN'], passportStrategiesEnum.JWT, getCarts);
-    this.get('/:id', ['ADMIN'], passportStrategiesEnum.JWT, getCartById);
-    this.post('/', ['ADMIN'], passportStrategiesEnum.JWT, createCart);
-    this.put('/:id', ['ADMIN'], passportStrategiesEnum.JWT, resolveCart);
+    this.get('/', ['USER'], passportStrategiesEnum.JWT, getCarts);
+    this.get('/:cid', ['USER'], passportStrategiesEnum.JWT, getCartById);
+    this.post('/', ['USER'], passportStrategiesEnum.JWT, createCart);
+    this.put('/:cid', ['USER'], passportStrategiesEnum.JWT, resolveCart);
   }
 }
-
-router.get("/", async (req, res) => {
-  try {
-    const carts = await manager.getAll();
-    console.log(carts);
-    res.send({ status: "carts get: success", cart: carts });
-  } catch (error) {
-    res.send({ status: "carts get: error", message: "Carrito no encontrado" });
-  }
-});
 
 router.get("/:cid", async (req, res) => {
   try {

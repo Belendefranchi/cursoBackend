@@ -9,7 +9,7 @@ const register = async (req, res) => {
     const { first_name, last_name, role, email, password } = req.body;
 
     if (!first_name || !last_name || !role || !email || !password )
-      return res.sendClientError('Controller: Incomplete values')
+      return res.sendClientError('User Controller: Incomplete values')
 
     await usersService.getByEmailRegister(email);
 
@@ -19,7 +19,7 @@ const register = async (req, res) => {
     req.logger.error(error.message);
 
     if (error instanceof AlreadyExists) {
-      return res.sendClientError('Controller: User already exists')
+      return res.sendClientError('User Controller: User already exists')
     }
     res.sendServerError(error.message);
   }
@@ -59,11 +59,11 @@ const login = async (req, res) => {
 
     //manejo de excepciones mediante clases customizadas extendiendo la clase padre Error
     if (error instanceof NotFound){
-      return res.sendClientError('Controller: User not found');
+      return res.sendClientError('User Controller: User not found');
     }
 
     if (error instanceof IncorrectLoginCredentials){
-      return res.sendClientError('Controller: Incorrect credentials');
+      return res.sendClientError('User Controller: Incorrect credentials');
     }
     res.sendServerError(error.message);
   }
@@ -84,15 +84,10 @@ const reset = async (req, res) => {
 
     if (!email || !password) {
       return res.sendClientError('User Controller: Incomplete values');
-
     };
 
     const user = await userModel.findOne({ email });
 
-    if (!user) {
-      return res.sendClientError('User Controller: User not found');
-
-    };
     user.password = createHash(password);
 
     await userModel.updateOne({ email }, user);
@@ -100,6 +95,11 @@ const reset = async (req, res) => {
     res.sendSuccess('Password updated');
 
 } catch (error) {
+  req.logger.error(error.message);
+
+  if (error instanceof NotFound){
+    return res.sendClientError('User Controller: User not found');
+  }
     res.sendServerError(error.message);
 };
 }
