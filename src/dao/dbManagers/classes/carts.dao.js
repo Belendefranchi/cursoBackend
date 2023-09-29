@@ -1,23 +1,27 @@
-import cartsModel from '../models/carts.model-.js';
+import cartsModel from '../models/carts.model.js';
 
 export default class ordersDAO {
+  constructor() {
+    console.log('Working users with DB')
+  }
+
   getCarts = async () => {
-    const result = await cartsModel.find();
+    const result = await cartsModel.find().lean();
     return result;
-  };
+  }
 
   getCartById = async (cid) => {
     const result = await cartsModel.findById(cid);
     return result;
-  };
+  }
 
-  createCart = async (carts) => {
-    const result = await cartsModel.create(carts);
+  createCart = async (cart) => {
+    const result = await cartsModel.create(cart);
     return result;
-  };
+  }
 
-  resolveCart = async (cid, carts) => {
-    const result = await cartsModel.findByIdAndUpdate(cid, carts);
+  resolveCart = async (cid, cart) => {
+    const result = await cartsModel.findByIdAndUpdate(cid, cart);
     return result;
-  };
+  }
 }

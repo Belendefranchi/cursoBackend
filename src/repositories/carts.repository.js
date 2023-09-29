@@ -1,4 +1,4 @@
-import CartsDAO from '../dao/classes/carts.dao.js';
+import CartsDAO from '../dao/dbManagers/classes/carts.dao.js';
 
 export default class CartsRepository {
   constructor() {
@@ -10,18 +10,18 @@ export default class CartsRepository {
     return result;
   }
 
-  getCartById = async (id) => {
-    const result = await this.dao.getCartById(id);
+  getCartById = async (cid) => {
+    const result = await this.dao.getCartById(cid);
     return result;
   }
 
-  createCart = async (order) => {
-    const result = await this.dao.createCart(order);
+  createCart = async (cart) => {
+    const result = await this.dao.createCart(cart);
     return result;
   }
 
-  resolveCart = async (id, order) => {
-    const result = await this.dao.resolveCart(id, order);
+  resolveCart = async (cid, cart) => {
+    const result = await this.dao.resolveCart(cid, cart);
     return result;
   }
 }
