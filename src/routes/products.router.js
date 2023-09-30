@@ -5,7 +5,7 @@ import {
   getProductsPaginated,
   getProductById,
   createProduct,
-  addProduct,
+  updateProduct,
   deleteProduct
 } from "../controllers/products.controller.js";
 
@@ -15,7 +15,7 @@ export default class ProductsRouter extends Router {
           this.get('/paginated', ['USER'], passportStrategiesEnum.JWT, getProductsPaginated);
           this.get('/:pid', ['USER'], passportStrategiesEnum.JWT, getProductById);
           this.post('/', ['ADMIN'], passportStrategiesEnum.JWT, createProduct);
-          this.put('/', ['ADMIN'], passportStrategiesEnum.JWT, addProduct);
+          this.put('/', ['ADMIN'], passportStrategiesEnum.JWT, updateProduct);
           this.delete('/', ['ADMIN'], passportStrategiesEnum.JWT, deleteProduct);
   }
 }

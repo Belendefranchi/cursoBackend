@@ -33,7 +33,7 @@ const getProductById = async (req, res) =>{
   try {
     const { pid } = req.params.pid
     const result = await productsService.getProductById(pid);
-    
+
     res.sendSuccess({ result });
   } catch (error) {
     req.logger.error(error.message);
@@ -61,7 +61,7 @@ const createProduct = async (req, res) => {
   }
 }
 
-const addProduct = async (req, res) => {
+const updateProduct = async (req, res) => {
   try {
     const product = req.body;
     const result = await productsService.getProductById(req.params.id);
@@ -89,7 +89,7 @@ const deleteProduct = async (req, res) => {
     res.sendSuccess({ updateResult });
   } catch (error) {
     req.logger.error(error.message);
-    
+
     if (error instanceof NotFound){
       return res.sendClientError('Controller: Product not found');
     }
@@ -112,6 +112,6 @@ export {
   getProductsPaginated,
   getProductById,
   createProduct,
-  addProduct,
+  updateProduct,
   deleteProduct
 }

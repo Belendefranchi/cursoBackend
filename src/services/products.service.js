@@ -13,8 +13,8 @@ const getProductsPaginated = async (limit, page) => {
   return products;
 };
 
-const getProductById = async (id) => {
-  const product = await productsRepository.getProductById(id);
+const getProductById = async (pid) => {
+  const product = await productsRepository.getProductById(pid);
   return product;
 };
 
@@ -28,14 +28,14 @@ const createProduct = async (product) => {
   return products;
 }; */
 
-const updateProduct = async (product, id) => {
-  product.products.push(id);
+const updateProduct = async (pid, product) => {
+  product.products.push(pid);
   const result = await productsRepository.updateProduct(product);
   return result;
 };
 
-const deleteProduct = async (id) => {
-  const result = await productsRepository.deleteProduct(id);
+const deleteProduct = async (pid) => {
+  const result = await productsRepository.deleteProduct(pid);
   return result;
 };
 
